@@ -1,0 +1,223 @@
+Starting System Information Report...
+
+================================================================
+>>> General System Overview
+================================================================
+
+--- Operating System Information ---
+Description:    Ubuntu 22.04.4 LTS
+Release:        22.04
+Codename:       jammy
+Kernel Version: 5.15.0-101-generic
+Architecture:   x86_64
+Hostname:       my-server-vm
+Uptime:         up 3 days, 18 hours, 45 minutes
+
+--- CPU Information ---
+Architecture:                    x86_64
+CPU(s):                          4
+Model name:                      Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+Vendor ID:                       GenuineIntel
+CPU max MHz:                     3200.0000
+CPU min MHz:                     800.0000
+Core(s) per socket:              2
+Socket(s):                       2
+Thread(s) per core:              1
+
+--- Memory Information ---
+              total        used        free      shared  buff/cache   available
+Mem:           7.8G        2.5G        3.8G        230M        1.5G        5.0G
+Swap:          2.0G        0.0B        2.0G
+
+================================================================
+>>> Storage and I/O
+================================================================
+
+--- Disk Usage and Information ---
+Filesystem Disk Usage:
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        97G  24G   68G  26% /
+/dev/sda1       523M  5.3M  518M   2% /boot/efi
+
+Block Device Information:
+NAME   SIZE TYPE MOUNTPOINT FSTYPE UUID                                 MODEL
+sda     100G disk
+├─sda1  524M part /boot/efi  vfat   A1B2-C3D4                            VBOX HARDDISK
+└─sda2 99.5G part /          ext4   E1F2G3H4-I5J6-K7L8-M9N0-O1P2Q3R4S5T6 VBOX HARDDISK
+sdb      1T disk /mnt/data  ext4   U1V2W3X4-Y5Z6-A7B8-C9D0-E1F2G3H4I5J6 VBOX HARDDISK
+sr0   1024M rom
+
+Disk I/O Statistics (Last 5 seconds):
+Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
+sda               1.58        0.00         32.00        0.00      0          160
+sdb               0.00        0.00          0.00        0.00      0            0
+
+--- Mounted Filesystems ---
+SOURCE                                       TARGET      FSTYPE OPTIONS                               USED      AVAIL
+/dev/sda2                                    /           ext4   rw,relatime                            24.1G     68.1G
+/dev/sda1                                    /boot/efi   vfat   rw,relatime,fmask=0022,dmask=0022,...  5.3M      518.7M
+/dev/sdb                                     /mnt/data   ext4   rw,relatime                             50G      950G
+
+================================================================
+>>> Network and Connectivity
+================================================================
+
+--- Network Information ---
+Network Interfaces:
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:12:34:56 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.100/24 brd 192.168.1.255 scope global dynamic enp0s3
+       valid_lft 86242sec preferred_lft 86242sec
+    inet6 fe80::a00:27ff:fe12:3456/64 scope link
+       valid_lft forever preferred_lft forever
+
+Routing Table:
+default via 192.168.1.1 dev enp0s3 proto dhcp src 192.168.1.100 metric 100
+192.168.1.0/24 dev enp0s3 proto kernel scope link src 192.168.1.100 metric 100
+
+DNS Servers:
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+Open Ports (Listening):
+Netid  State      Recv-Q Send-Q                                 Local Address:Port                                   Peer Address:Port
+tcp    LISTEN     0      128                                          0.0.0.0:22                                          0.0.0.0:*
+tcp    LISTEN     0      128                                          0.0.0.0:80                                          0.0.0.0:*
+tcp    LISTEN     0      128                                         [::]:22                                             [::]:*
+udp    UNCONN     0      0                                            0.0.0.0:68                                          0.0.0.0:*
+
+================================================================
+>>> Processes and Users
+================================================================
+
+--- Top Running Processes ---
+Top 10 CPU-consuming processes:
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0 168404 13532 ?        Ss   Jun15   0:02 /sbin/init
+root         2  0.0  0.0      0     0 ?        S    Jun15   0:00 [kthreadd]
+systemd+ 12345 10.5 0.8  987654 65432 ?        Sl   10:30   1:23 /usr/bin/python3 /usr/bin/some_cpu_intensive_app
+www-data 54321  8.2 1.2  876543 98765 ?        Sl   10:35   0:58 /usr/sbin/apache2 -k start
+root     67890  5.1 0.5  123456 45678 ?        S    10:40   0:35 /usr/bin/java -jar myapp.jar
+root      9876  2.3 0.1  12345  5678 ?        S    Jun15   0:15 /usr/bin/containerd
+... (truncated for brevity)
+
+Top 10 Memory-consuming processes:
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root     65432  0.1 12.5 1234567 1024000 ?       Sl   Jun15  0:10 /usr/bin/database_server
+www-data 54321  8.2 1.2  876543 98765 ?        Sl   10:35   0:58 /usr/sbin/apache2 -k start
+systemd+ 12345 10.5 0.8  987654 65432 ?        Sl   10:30   1:23 /usr/bin/python3 /usr/bin/some_cpu_intensive_app
+user     78901  0.5 0.7  567890 55000 pts/0    R+   11:00   0:05 /usr/bin/firefox
+root      1234  0.0 0.2  23456  16000 ?        Ss   Jun15   0:01 /usr/lib/systemd/systemd-journald
+... (truncated for brevity)
+
+--- User Information ---
+Logged-in Users:
+user     pts/0        2025-06-18 22:30 (192.168.1.50)
+root     pts/1        2025-06-18 22:45 (192.168.1.1)
+
+Last Logins:
+user     pts/0        192.168.1.50 Wed Jun 18 22:30   still logged in
+root     pts/1        192.168.1.1  Wed Jun 18 22:45   still logged in
+user     pts/0        192.168.1.50 Tue Jun 17 09:15 - 17:00  (07:45)
+root     pts/0        192.168.1.1  Mon Jun 16 14:00 - 15:30  (01:30)
+user     pts/0        192.168.1.50 Sun Jun 15 18:00 - 23:00  (05:00)
+
+================================================================
+>>> Software and Scheduled Tasks
+================================================================
+
+--- Package Information (Top 10 installed/recent) ---
+Recently installed Debian packages (last 10):
+2025-06-18 22:05:01 startup packages
+2025-06-18 22:05:02 install apt-transport-https:amd64 <none> 2.4.11
+2025-06-18 22:05:02 install ca-certificates:all <none> 20230311
+2025-06-18 22:05:02 install libapt-pkg6.8:amd64 <none> 2.4.11
+2025-06-18 22:05:03 install libargon2-0:amd64 <none> 0~20171227-0.2
+2025-06-18 22:05:03 install libbsd0:amd64 <none> 0.11.6-1
+2025-06-18 22:05:03 install libgcc-s1:amd64 <none> 12.3.0-1ubuntu1~22.04
+2025-06-18 22:05:04 install libgnutls30:amd64 <none> 3.7.3-4ubuntu1.4
+2025-06-18 22:05:04 install libgomp1:amd64 <none> 12.3.0-1ubuntu1~22.04
+2025-06-18 22:05:05 install libgssapi-krb5-2:amd64 <none> 1.19.2-2ubuntu0.3
+
+--- Scheduled Cron Jobs (System-wide and User-specific) ---
+System-wide Cron Jobs (/etc/cron.*):
+total 16
+-rw-r--r-- 1 root root  102 Apr 10 09:00 cron.daily
+-rw-r--r-- 1 root root  102 Apr 10 09:00 cron.hourly
+-rw-r--r-- 1 root root  102 Apr 10 09:00 cron.monthly
+-rw-r--r-- 1 root root  102 Apr 10 09:00 cron.weekly
+---
+File: cron.daily
+#!/bin/sh
+test -x /usr/bin/run-parts && run-parts --report /etc/cron.daily
+---
+File: cron.hourly
+#!/bin/sh
+test -x /usr/bin/run-parts && run-parts /etc/cron.hourly
+---
+File: cron.monthly
+#!/bin/sh
+test -x /usr/bin/run-parts && run-parts --report /etc/cron.monthly
+---
+File: cron.weekly
+#!/bin/sh
+test -x /usr/bin/run-parts && run-parts --report /etc/cron.weekly
+---
+
+User Cron Jobs (for current user - if applicable, requires root to see others):
+# Example user cron job
+0 0 * * * /usr/local/bin/daily-backup.sh > /dev/null 2>&1
+
+================================================================
+>>> Hardware and Diagnostics
+================================================================
+
+--- Hardware Details (LSPCI/LSUSB) ---
+PCI Devices:
+-[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
+           +-01.0  Intel Corporation 82G33/G31/P35/P31 Express PCI Express Root Port
+           \-02.0  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) HD Audio Controller
+           \-03.0  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) USB UHCI Controller #4
+           \-04.0  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) USB UHCI Controller #5
+           \-05.0  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) SATA AHCI Controller
+           \-06.0  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) SMBus Controller
+           \-07.0  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) Ethernet Controller
+           \-08.0  Red Hat Virtio network device (rev 01)
+           \-09.0  Red Hat Virtio SCSI controller (rev 01)
+
+USB Devices:
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+    |__ Port 1: Dev 2, If 0, Class=Vendor Specific Class, Driver=vboxguest, 12M
+
+--- Recent System Logs (Last 20 lines) ---
+Jun 18 22:58:01 my-server-vm systemd[1]: Started User Manager for UID 1000.
+Jun 18 22:58:01 my-server-vm systemd[1]: Starting LXD - container startup/shutdown...
+Jun 18 22:58:01 my-server-vm systemd[1]: Finished LXD - container startup/shutdown.
+Jun 18 22:58:01 my-server-vm systemd[1]: Reached target Network is Online.
+Jun 18 22:58:02 my-server-vm systemd[1]: Starting Cleanup of Temporary Directories...
+Jun 18 22:58:02 my-server-vm systemd[1]: Finished Cleanup of Temporary Directories.
+Jun 18 22:58:03 my-server-vm CRON[12345]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Jun 18 22:59:01 my-server-vm systemd[1]: Starting apt-daily.service - Daily apt download activities...
+Jun 18 22:59:05 my-server-vm systemd[1]: apt-daily.service: Deactivated successfully.
+Jun 18 22:59:05 my-server-vm systemd[1]: Finished apt-daily.service - Daily apt download activities.
+Jun 18 23:00:01 my-server-vm CRON[12346]: (user) CMD (/usr/local/bin/daily-backup.sh > /dev/null 2>&1)
+Jun 18 23:00:05 my-server-vm sshd[12347]: Accepted publickey for user from 192.168.1.50 port 54321 ssh2: RSA SHA256:...
+Jun 18 23:00:05 my-server-vm sshd[12347]: pam_unix(sshd:session): session opened for user user(uid=1000) by (uid=0)
+Jun 18 23:00:05 my-server-vm systemd-logind[789]: New session 3 of user user.
+Jun 18 23:00:06 my-server-vm systemd[1]: Started Session 3 of user user.
+Jun 18 23:05:01 my-server-vm systemd[1]: apt-daily-upgrade.service: Deactivated successfully.
+Jun 18 23:05:01 my-server-vm systemd[1]: Finished apt-daily-upgrade.service - Daily apt upgrade and clean activities.
+Jun 18 23:10:01 my-server-vm systemd[1]: Starting Clean php session files...
+Jun 18 23:10:01 my-server-vm systemd[1]: Finished Clean php session files.
+Jun 18 23:15:01 my-server-vm CRON[12348]: (root) CMD (    /usr/lib/php/sessionclean )
+
+System Information Report Completed.
+Report generated in 12 seconds.
+Detailed logs are available at: /var/log/system-info.log
+Full report saved to: /tmp/system_info_reports/system_info_report_2025-06-18_23-15-36.txt
