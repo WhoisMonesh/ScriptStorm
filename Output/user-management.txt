@@ -1,0 +1,211 @@
+# First, the script would be made executable:
+# chmod +x user-management.sh
+# Then run as root:
+# sudo ./user-management.sh
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Create New User ---
+Enter username: testuser1
+Enter password for testuser1 (leave empty for no password, or use 'passwd' later): securepass123
+Enter full name or comment (e.g., 'John Doe'): Test User Account One
+Enter home directory (default: /home/testuser1): 
+Enter login shell (default: /bin/bash): 
+Create home directory? (yes/no, default: yes): yes
+User 'testuser1' created successfully.
+Password set for 'testuser1'.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 7
+
+--- Create New Group ---
+Enter new group name: devops
+Group 'devops' created successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 5
+
+--- Add User to Group(s) ---
+Enter username to add to group(s): testuser1
+Current groups for testuser1: testuser1
+Enter group names to add (space-separated): devops sudo
+User 'testuser1' added to group 'devops' successfully.
+User 'testuser1' added to group 'sudo' successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- List All Users ---
+Username              UID    GID    Home Directory      Shell
+-----------------------------------------------------------------
+root                  0      0      /root               /bin/bash
+daemon                1      1      /usr/sbin           /usr/sbin/nologin
+bin                   2      2      /bin                /usr/sbin/nologin
+sys                   3      3      /dev                /usr/sbin/nologin
+sync                  4      65534  /bin                /bin/sync
+games                 5      60     /usr/games          /usr/sbin/nologin
+man                   6      12     /var/cache/man      /usr/sbin/nologin
+... (system users omitted for brevity)
+whoismonesh           1000   1000   /home/whoismonesh   /bin/bash
+testuser1             1001   1001   /home/testuser1     /bin/bash
+-----------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Modify User Properties ---
+Enter username to modify: testuser1
+Current properties for testuser1:
+Login: testuser1                        Name: Test User Account One
+Directory: /home/testuser1              Shell: /bin/bash
+...
+uid=1001(testuser1) gid=1001(testuser1) groups=1001(testuser1),27(sudo),1002(devops)
+
+Enter new values (leave blank to keep current value):
+New Full Name/Comment: Test User Admin
+New Home Directory: /srv/users/testuser1
+New Login Shell: /bin/sh
+Set New Password? (yes/no, default: no): yes
+Enter NEW password for testuser1: newsecurepass456
+User 'testuser1' properties updated successfully.
+Password updated for 'testuser1'.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Delete User ---
+Enter username to delete: testuser1
+Are you sure you want to delete user 'testuser1' and their home directory? (yes/no): yes
+User 'testuser1' and their home directory deleted successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 8
+
+--- Delete Group ---
+Enter group name to delete: devops
+Are you sure you want to delete group 'devops'? (yes/no): yes
+Group 'devops' deleted successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Management Tool (WhoisMonesh) <<<
+=====================================================
+1. Create New User
+2. Delete User
+3. Modify User Properties
+4. List All Users
+5. Add User to Group(s)
+6. Remove User from Group
+7. Create New Group
+8. Delete Group
+9. List All Groups
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting User Account Management Tool. Goodbye!
