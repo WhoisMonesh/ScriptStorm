@@ -1,0 +1,150 @@
+Scenario 1: All Services are Running (Initial Check)
+This scenario demonstrates the script's output when all monitored services are in an "active" state, except for nginx which is intentionally shown as inactive.
+
+# First, ensure the script is executable:
+# chmod +x service-monitor.sh
+
+# Then, run the script as root:
+# sudo ./service-monitor.sh
+
+Starting Critical Service Monitoring...
+
+================================================================
+>>> Critical Service Status Check <<<
+================================================================
+Service: sshd - Status: RUNNING (Active: active, Sub: running)
+---
+Service: apache2 - Status: RUNNING (Active: active, Sub: running)
+---
+Service: mysql - Status: RUNNING (Active: active, Sub: running)
+---
+Service: cron - Status: RUNNING (Active: active, Sub: running)
+---
+Service: nginx - Status: INACTIVE (Active: inactive, Sub: dead)
+---
+Service: docker - Status: RUNNING (Active: active, Sub: running)
+---
+
+Critical Service Monitoring Completed.
+Detailed logs are available at: /var/log/service-monitor.log
+
+
+Content of /var/log/service-monitor.log (Partial Example):
+
+# This shows the log entries generated during Scenario 1.
+2025-06-19_10-30-01 [INFO] Service monitor script started.
+2025-06-19_10-30-01 [INFO] Service 'sshd' is active.
+2025-06-19_10-30-01 [INFO] Service 'apache2' is active.
+2025-06-19_10-30-01 [INFO] Service 'mysql' is active.
+2025-06-19_10-30-01 [INFO] Service 'cron' is active.
+2025-06-19_10-30-01 [ALERT] Service 'nginx' is inactive (SubState: dead).
+2025-06-19_10-30-01 [SUCCESS] Email alert sent: 'Service Monitor Alert: nginx is inactive!'
+2025-06-19_10-30-01 [INFO] Service 'docker' is active.
+2025-06-19_10-30-01 [INFO] Service monitor script completed.
+
+
+
+# This shows the log entries generated during Scenario 1.
+2025-06-19_10-30-01 [INFO] Service monitor script started.
+2025-06-19_10-30-01 [INFO] Service 'sshd' is active.
+2025-06-19_10-30-01 [INFO] Service 'apache2' is active.
+2025-06-19_10-30-01 [INFO] Service 'mysql' is active.
+2025-06-19_10-30-01 [INFO] Service 'cron' is active.
+2025-06-19_10-30-01 [ALERT] Service 'nginx' is inactive (SubState: dead).
+2025-06-19_10-30-01 [SUCCESS] Email alert sent: 'Service Monitor Alert: nginx is inactive!'
+2025-06-19_10-30-01 [INFO] Service 'docker' is active.
+2025-06-19_10-30-01 [INFO] Service monitor script completed.
+
+
+
+Scenario 2: A Service Goes Down (e.g., mysql fails)
+This scenario simulates mysql.service transitioning from active to failed, triggering an alert (assuming ALERT_ON_DOWN_ONLY is true).
+
+
+# Simulate mysql failing:
+# sudo systemctl stop mysql.service
+
+# Then, run the service monitor script again:
+# sudo ./service-monitor.sh
+
+Starting Critical Service Monitoring...
+
+================================================================
+>>> Critical Service Status Check <<<
+================================================================
+Service: sshd - Status: RUNNING (Active: active, Sub: running)
+---
+Service: apache2 - Status: RUNNING (Active: active, Sub: running)
+---
+Service: mysql - Status: FAILED (Active: failed, Sub: dead)
+---
+Service: cron - Status: RUNNING (Active: active, Sub: running)
+---
+Service: nginx - Status: INACTIVE (Active: inactive, Sub: dead)
+---
+Service: docker - Status: RUNNING (Active: active, Sub: running)
+---
+
+Critical Service Monitoring Completed.
+Detailed logs are available at: /var/log/service-monitor.log
+
+
+Content of /var/log/service-monitor.log (Relevant Portion after mysql failed):
+
+# This shows the log entries generated when mysql.service transitioned to 'failed'.
+# Note that 'nginx' does not trigger a new alert because ALERT_ON_DOWN_ONLY is true.
+2025-06-19_10-35-15 [INFO] Service monitor script started.
+2025-06-19_10-35-15 [INFO] Service 'sshd' is active.
+2025-06-19_10-35-15 [INFO] Service 'apache2' is active.
+2025-06-19_10-35-15 [ALERT] Service 'mysql' is failed (SubState: dead).
+2025-06-19_10-35-15 [SUCCESS] Email alert sent: 'Service Monitor Alert: mysql is failed!'
+2025-06-19_10-35-15 [INFO] Service 'cron' is active.
+2025-06-19_10-35-15 [ALERT] Service 'nginx' is inactive (SubState: dead).
+2025-06-19_10-35-15 [INFO] Service 'nginx' is still inactive. No new alert sent (ALERT_ON_DOWN_ONLY is true).
+2025-06-19_10-35-15 [INFO] Service 'docker' is active.
+2025-06-19_10-35-15 [INFO] Service monitor script completed.
+
+
+Scenario 3: A Service Recovers
+This scenario demonstrates mysql.service recovering its active status after previously being failed, triggering a recovery alert.
+
+# Simulate mysql recovering:
+# sudo systemctl start mysql.service
+
+# Then, run the service monitor script again:
+# sudo ./service-monitor.sh
+
+Starting Critical Service Monitoring...
+
+================================================================
+>>> Critical Service Status Check <<<
+================================================================
+Service: sshd - Status: RUNNING (Active: active, Sub: running)
+---
+Service: apache2 - Status: RUNNING (Active: active, Sub: running)
+---
+Service: mysql - Status: RUNNING (Active: active, Sub: running)
+---
+Service: cron - Status: RUNNING (Active: active, Sub: running)
+---
+Service: nginx - Status: INACTIVE (Active: inactive, Sub: dead)
+---
+Service: docker - Status: RUNNING (Active: active, Sub: running)
+---
+
+Critical Service Monitoring Completed.
+Detailed logs are available at: /var/log/service-monitor.log
+
+Content of /var/log/service-monitor.log (Relevant Portion after mysql recovered):
+
+# This shows the log entries generated when mysql.service recovered to 'active'.
+2025-06-19_10-40-30 [INFO] Service monitor script started.
+2025-06-19_10-40-30 [INFO] Service 'sshd' is active.
+2025-06-19_10-40-30 [INFO] Service 'apache2' is active.
+2025-06-19_10-40-30 [INFO] Service 'mysql' has recovered and is now active.
+2025-06-19_10-40-30 [SUCCESS] Email alert sent: 'Service Monitor Alert: mysql has RECOVERED!'
+2025-06-19_10-40-30 [INFO] Service 'cron' is active.
+2025-06-19_10-40-30 [ALERT] Service 'nginx' is inactive (SubState: dead).
+2025-06-19_10-40-30 [INFO] Service 'nginx' is still inactive. No new alert sent (ALERT_ON_DOWN_ONLY is true).
+2025-06-19_10-40-30 [INFO] Service 'docker' is active.
+2025-06-19_10-40-30 [INFO] Service monitor script completed.
