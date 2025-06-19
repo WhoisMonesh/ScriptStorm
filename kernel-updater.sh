@@ -1,17 +1,24 @@
 #!/bin/bash
 
 # kernel-updater.sh - Kernel Update Automation
-# Version: 1.0
+# Version: 1.1
 # Author: WhoisMonesh - Github: https://github.com/WhoisMonesh/ScriptStorm
 # Date: June 19, 2025
 # Description: This script automates kernel updates for various Linux distributions.
 #              It checks for new kernels, performs the update, manages GRUB,
 #              handles old kernel removal, and provides notifications.
+#              It includes an 'unattended mode' for automated execution, but
+#              this mode should be used with extreme caution due to the critical
+#              nature of kernel updates and reboots.
 #              CRITICAL: Always backup your system before major updates.
 
 # --- Configuration ---
 LOG_FILE="/var/log/kernel-updater.log"    # Log file for script actions and errors
 DATE_FORMAT="+%Y-%m-%d_%H-%M-%S"
+
+# Set to "true" for fully automated execution (DANGEROUS without proper testing!)
+# When true, prompts for confirmation and reboots are skipped/automated.
+UNATTENDED_MODE="false"
 
 # Notification Settings
 NOTIFICATION_EMAIL="your_email@example.com" # Email address to send success/failure alerts
@@ -120,6 +127,11 @@ read_user_input() {
 
 confirm_action() {
     local prompt="$1"
+    if [ "$UNATTENDED_MODE" == "true" ]; then
+        echo -e "${YELLOW}UNATTENDED MODE: Automatically confirming '$prompt'.${NC}"
+        log_message "INFO" "UNATTENDED MODE: Automatically confirming '$prompt'."
+        return 0 # Auto-confirm
+    fi
     echo -n "${YELLOW}$prompt (yes/no): ${NC}"
     read -r response
     if [[ "$response" =~ ^[yY][eE][sS]$ ]]; then
@@ -144,7 +156,8 @@ detect_package_manager() {
     elif check_command "dnf"; then
         PKG_MANAGER="dnf"
         KERNEL_UPDATE_CMD="sudo dnf upgrade -y"
-        KERNEL_LIST_CMD="sudo dnf repoquery --installonly --latest-limit=-1 -q kernel | awk -F'.' '{print $1\"-\"$2}' | sort -V" # list all but current
+        # dnf repoquery --installonly filters out older kernels installed as alternatives
+        KERNEL_LIST_CMD="sudo dnf repoquery --installonly --latest-limit=-1 -q kernel | awk -F'.' '{print \$1\"-\"\$2}' | sort -V"
         KERNEL_REMOVE_CMD_PREFIX="sudo dnf remove -y"
         GRUB_UPDATE_CMD="sudo grub2-mkconfig -o $(find /boot/efi -name grub.cfg 2>/dev/null || echo /boot/grub2/grub.cfg)" # Adaptive for EFI/BIOS
         echo -e "${GREEN}Detected: DNF (Fedora/RHEL 8+ based system)${NC}"
@@ -234,17 +247,18 @@ check_for_kernel_updates() {
     echo -e "${CYAN}Running $PKG_MANAGER update/check for new kernels...${NC}"
     log_message "INFO" "Checking for kernel updates using '$KERNEL_UPDATE_CMD'."
 
+    local kernel_update_available=1 # Default to not available
+
     case "$PKG_MANAGER" in
         "apt")
             sudo apt update > /dev/null 2>&1
             if apt list --upgradable 2>/dev/null | grep -qE "linux-image|linux-headers"; then
                 echo -e "${YELLOW}New kernel updates are available!${NC}"
                 log_message "INFO" "New kernel updates available."
-                return 0
+                kernel_update_available=0
             else
                 echo -e "${GREEN}No new kernel updates found.${NC}"
                 log_message "INFO" "No new kernel updates."
-                return 1
             fi
             ;;
         "dnf"|"yum")
@@ -252,11 +266,10 @@ check_for_kernel_updates() {
             if sudo "${PKG_MANAGER}" list updates kernel\* 2>/dev/null | grep -q "kernel"; then
                 echo -e "${YELLOW}New kernel updates are available!${NC}"
                 log_message "INFO" "New kernel updates available."
-                return 0
+                kernel_update_available=0
             else
                 echo -e "${GREEN}No new kernel updates found.${NC}"
                 log_message "INFO" "No new kernel updates."
-                return 1
             fi
             ;;
         "pacman")
@@ -264,11 +277,10 @@ check_for_kernel_updates() {
             if pacman -Qu 2>/dev/null | grep -q "^linux\|^linux-lts\|^linux-zen\|^linux-hardened"; then
                 echo -e "${YELLOW}New kernel updates are available!${NC}"
                 log_message "INFO" "New kernel updates available."
-                return 0
+                kernel_update_available=0
             else
                 echo -e "${GREEN}No new kernel updates found.${NC}"
                 log_message "INFO" "No new kernel updates."
-                return 1
             fi
             ;;
         "zypper")
@@ -276,20 +288,20 @@ check_for_kernel_updates() {
             if zypper list-patches | grep -qE "kernel-default|kernel-source|kernel-devel"; then # Checks for kernel patches
                 echo -e "${YELLOW}New kernel updates/patches are available!${NC}"
                 log_message "INFO" "New kernel updates available."
-                return 0
+                kernel_update_available=0
             else
                 echo -e "${GREEN}No new kernel updates/patches found.${NC}"
                 log_message "INFO" "No new kernel updates."
-                return 1
             fi
             ;;
         *)
             echo -e "${RED}ERROR: Cannot check for updates for unknown package manager: $PKG_MANAGER.${NC}"
             log_message "ERROR" "Cannot check for updates for unknown PM: $PKG_MANAGER."
-            return 1
+            kernel_update_available=1
             ;;
     esac
     pause_script
+    return $kernel_update_available
 }
 
 perform_kernel_update() {
@@ -361,64 +373,60 @@ manage_old_kernels() {
 
     local old_kernels_to_remove=""
     # Filter out the running kernel and the N most recent kernels
-    local sorted_kernels=$(echo "$installed_kernels" | sort -rV)
-    local current_kernel=$(uname -r | sed 's/\(.*\)-\(.*\)/\1/') # Remove build info for apt match
-    local live_kernel_package=""
+    local sorted_kernels_array=($(echo "$installed_kernels" | sort -rV)) # Sort descending
+    local current_kernel_full=$(uname -r) # e.g., 5.15.0-101-generic
+    local current_kernel_base=$(echo "$current_kernel_full" | sed 's/\(.*\)-\(.*\)/\1/') # e.g., 5.15.0-101
 
-    # Try to find the exact package name for the running kernel
-    case "$PKG_MANAGER" in
-        "apt") live_kernel_package=$(echo "$installed_kernels" | grep "linux-image-$current_kernel" | head -n 1) ;;
-        "dnf"|"yum") live_kernel_package=$(rpm -q kernel | grep "$current_kernel") ;;
-        "pacman") live_kernel_package=$(pacman -Qq | grep "^linux" | grep -F "$(uname -r | cut -d'-' -f1-2)") ;; # Match running kernel base
-        "zypper") live_kernel_package=$(rpm -q kernel | grep "$current_kernel") ;;
-    esac
+    local kernels_to_keep_final=()
+    local kernels_for_removal_final=()
+    local kept_count=0
 
-    local count=0
-    local keep_list=()
-    local temp_remove_list=()
-
-    for kernel_pkg in $sorted_kernels; do
-        if [[ "$kernel_pkg" == *"$current_kernel"* && -n "$current_kernel" ]]; then # Always keep running kernel
-            keep_list+=("$kernel_pkg")
-            continue
+    for kernel_pkg_name in "${sorted_kernels_array[@]}"; do
+        # Check if it's the currently running kernel's package
+        # APT specific: check if it contains the full running kernel string
+        # RPM specific: check if it's the exact RPM package name for the running kernel
+        if [[ "$kernel_pkg_name" == *"$current_kernel_full"* ]]; then
+             if [[ ! " ${kernels_to_keep_final[*]} " =~ " ${kernel_pkg_name} " ]]; then
+                kernels_to_keep_final+=("$kernel_pkg_name")
+             fi
+             continue
         fi
-        
-        # Check if this kernel package is actually active or part of the "N to keep"
-        local found_in_keep=false
-        for kept in "${keep_list[@]}"; do
-            if [[ "$kept" == "$kernel_pkg" ]]; then
-                found_in_keep=true
-                break
-            fi
-        done
 
-        if [ "$found_in_keep" == "true" ] || [ $count -lt "$KERNELS_TO_KEEP" ]; then
-            keep_list+=("$kernel_pkg")
-            count=$((count + 1))
+        # Logic to keep the N most recent *different* kernels
+        if [ "$kept_count" -lt "$KERNELS_TO_KEEP" ]; then
+            # Add to keep list if not already there
+            if [[ ! " ${kernels_to_keep_final[*]} " =~ " ${kernel_pkg_name} " ]]; then
+                kernels_to_keep_final+=("$kernel_pkg_name")
+                kept_count=$((kept_count + 1))
+            fi
         else
-            temp_remove_list+=("$kernel_pkg")
+            # Add to removal list
+            if [[ ! " ${kernels_for_removal_final[*]} " =~ " ${kernel_pkg_name} " ]]; then
+                kernels_for_removal_final+=("$kernel_pkg_name")
+            fi
         fi
     done
 
-    # Remove duplicates from keep_list and sort
-    IFS=$'\n' keep_list=($(sort -u <<<"${keep_list[*]}"))
-    IFS=$'\n' temp_remove_list=($(sort -u <<<"${temp_remove_list[*]}"))
+    echo -e "${YELLOW}Kernels to KEEP (current: $current_kernel_full + $KERNELS_TO_KEEP most recent):${NC}"
+    if [ ${#kernels_to_keep_final[@]} -eq 0 ]; then
+        echo "  (None identified based on policy. This might be incorrect for single kernel systems.)"
+    else
+        for k in "${kernels_to_keep_final[@]}"; do echo "  - $k"; done
+    fi
 
-    echo -e "${YELLOW}Kernels to KEEP (current + $KERNELS_TO_KEEP most recent):${NC}"
-    for k in "${keep_list[@]}"; do echo "  - $k"; done
 
     echo -e "${RED}Kernels proposed for REMOVAL:${NC}"
-    if [ ${#temp_remove_list[@]} -eq 0 ]; then
+    if [ ${#kernels_for_removal_final[@]} -eq 0 ]; then
         echo "  No old kernels to remove based on retention policy."
         log_message "INFO" "No old kernels to remove."
         pause_script
         return 0
     fi
 
-    for k in "${temp_remove_list[@]}"; do echo "  - $k"; done
+    for k in "${kernels_for_removal_final[@]}"; do echo "  - $k"; done
 
     if confirm_action "Do you want to remove these old kernels?"; then
-        for kernel_pkg_to_remove in "${temp_remove_list[@]}"; do
+        for kernel_pkg_to_remove in "${kernels_for_removal_final[@]}"; do
             echo -e "${CYAN}Removing '$kernel_pkg_to_remove' using $PKG_MANAGER...${NC}"
             log_message "INFO" "Removing old kernel: $kernel_pkg_to_remove"
             eval "$KERNEL_REMOVE_CMD_PREFIX $kernel_pkg_to_remove"
@@ -440,13 +448,20 @@ manage_old_kernels() {
 prompt_reboot() {
     print_subsection "Reboot Required"
     echo -e "${YELLOW}A kernel update has been performed. For changes to take effect, a system reboot is REQUIRED.${NC}"
-    if confirm_action "Do you want to reboot now?"; then
-        echo -e "${CYAN}Initiating system reboot... Goodbye!${NC}"
-        log_message "INFO" "System reboot initiated after kernel update."
+    if [ "$UNATTENDED_MODE" == "true" ]; then
+        echo -e "${CYAN}UNATTENDED MODE: Initiating automatic system reboot in 10 seconds... Goodbye!${NC}"
+        log_message "INFO" "UNATTENDED MODE: Automatic system reboot initiated after kernel update."
+        sleep 10 # Give a brief window to cancel if needed
         sudo reboot
     else
-        echo -e "${YELLOW}Reboot deferred. Please remember to reboot your system soon.${NC}"
-        log_message "WARN" "Reboot deferred after kernel update."
+        if confirm_action "Do you want to reboot now?"; then
+            echo -e "${CYAN}Initiating system reboot... Goodbye!${NC}"
+            log_message "INFO" "System reboot initiated after kernel update."
+            sudo reboot
+        else
+            echo -e "${YELLOW}Reboot deferred. Please remember to reboot your system soon.${NC}"
+            log_message "WARN" "Reboot deferred after kernel update."
+        fi
     fi
     pause_script
 }
@@ -459,6 +474,9 @@ display_main_menu() {
     echo -e "${BLUE}>>> Kernel Update Automation (WhoisMonesh) <<<${NC}"
     echo -e "${BLUE}=====================================================${NC}"
     echo -e "${MAGENTA}Detected Manager: ${PKG_MANAGER^}${NC}" # Capitalize first letter
+    if [ "$UNATTENDED_MODE" == "true" ]; then
+        echo -e "${RED}UNATTENDED MODE IS ACTIVE - USE WITH EXTREME CAUTION!${NC}"
+    fi
     echo -e "${BLUE}-----------------------------------------------------${NC}"
     echo -e "${GREEN}1. Check for New Kernel Updates${NC}"
     echo -e "${GREEN}2. Perform Kernel Update${NC}"
@@ -477,7 +495,7 @@ main() {
         exit 1
     fi
 
-    log_message "INFO" "Kernel updater script started."
+    log_message "INFO" "Kernel updater script started. UNATTENDED_MODE is set to: $UNATTENDED_MODE."
     check_root # This script *requires* root for full functionality.
     detect_package_manager
 
@@ -488,7 +506,7 @@ main() {
 
         case "$choice" in
             1) check_for_kernel_updates ;;
-            2) perform_kernel_update ;;
+            2) perform_kernel_update; [ $? -eq 0 ] && prompt_reboot ;; # Prompt reboot only if update was successful
             3) update_grub ;;
             4) manage_old_kernels ;;
             0)
