@@ -1,0 +1,118 @@
+# Show dependencies for nginx
+./service-deps.sh nginx
+
+# Show reverse dependencies (what depends on sshd)
+./service-deps.sh -r sshd
+
+# Set custom depth for dependency tree
+./service-deps.sh -d 5 docker
+
+# List all services
+./service-deps.sh -a
+
+# Search for services containing 'network'
+./service-deps.sh -s network
+
+# Show help
+./service-deps.sh -h
+
+
+$ ./service-deps.sh -a
+Listing all services (systemd units):
+accounts-daemon.service                active
+acpid.service                         active
+apache2.service                       active
+apparmor.service                      active
+avahi-daemon.service                  active
+[...truncated for brevity...]
+zfs-import-cache.service              inactive
+
+$ ./service-deps.sh -s network
+Searching for services matching: network
+network-manager.service               active
+networkd-dispatcher.service           active
+networking.service                    active
+NetworkManager-wait-online.service    inactive
+
+$ ./service-deps.sh nginx.service
+=== Service Information ===
+Name: nginx.service
+Status: active
+Description: A high performance web server and a reverse proxy server
+Main PID: 1234 (nginx)
+Memory: 24 MB
+
+=== Dependency Tree ===
+(Showing what nginx.service depends on)
+└── nginx.service [active]
+    ├── system.slice [active]
+    └── sysinit.target [active]
+        ├── apparmor.service [active]
+        ├── console-setup.service [active]
+        └── systemd-sysctl.service [active]
+
+=== Detailed Dependency Info ===
+After = sysinit.target
+After = network.target
+Wants = network-online.target
+
+$ ./service-deps.sh -r sshd.service
+=== Service Information ===
+Name: sshd.service
+Status: active
+Description: OpenBSD Secure Shell server
+Main PID: 5678 (sshd)
+Memory: 8 MB
+
+=== Dependency Tree ===
+(Showing what depends on sshd.service)
+└── sshd.service [active]
+    ├── multi-user.target [active]
+    └── sockets.target [active]
+
+=== Detailed Dependency Info ===
+WantedBy = multi-user.target
+RequiredBy = multi-user.target
+
+$ ./service-deps.sh -d 5 docker.service
+=== Service Information ===
+Name: docker.service
+Status: active
+Description: Docker Application Container Engine
+Main PID: 9012 (dockerd)
+Memory: 112 MB
+
+=== Dependency Tree ===
+(Showing what docker.service depends on)
+└── docker.service [active]
+    ├── containerd.service [active]
+    ├── docker.socket [active]
+    ├── system.slice [active]
+    └── sysinit.target [active]
+        ├── apparmor.service [active]
+        ├── console-setup.service [active]
+        ├── dev-hugepages.mount [active]
+        ├── dev-mqueue.mount [active]
+        └── systemd-sysctl.service [active]
+
+=== Detailed Dependency Info ===
+After = network.target
+After = containerd.service
+Wants = network-online.target
+Requires = docker.socket
+
+$ ./service-deps.sh -h
+Usage: ./service-deps.sh [options] [service_name]
+Options:
+  -a, --all           List all available services
+  -s, --search TERM   Search for services matching TERM
+  -r, --reverse       Show reverse dependencies (what depends on this service)
+  -d, --depth NUM     Set maximum depth for dependency tree (default: 3)
+  -h, --help          Show this help message
+
+Examples:
+  ./service-deps.sh nginx.service          # Show nginx service dependencies
+  ./service-deps.sh -r sshd.service        # Show what depends on sshd
+  ./service-deps.sh -d 5 docker.service    # Show docker dependencies with depth 5
+  ./service-deps.sh -a                     # List all services
+  ./service-deps.sh -s network             # Search for services with 'network' in name
