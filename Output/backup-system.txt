@@ -1,0 +1,124 @@
+# First, ensure the script is executable:
+# chmod +x backup-system.sh
+
+# Then, run the script as root:
+# sudo ./backup-system.sh
+
+<clear screen>
+=====================================================
+>>> System Backup Solution (WhoisMonesh) <<<
+=====================================================
+1. Full System Backup (tar, excludes /dev, /proc, /sys, etc.)
+2. Backup Specific Directory (tar)
+3. Sync/Incremental Backup (rsync)
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Perform Tar Backup ---
+Enter backup destination directory (local path or user@host:/path) [/mnt/backups/local]: 
+Choose compression (gz, bz2, xz, default: gz): xz
+Attempting local backup to /mnt/backups/local/Full-System-2025-06-19_15-30-00.tar.xz...
+tar: Removing leading `/' from member names
+./var/log/backup-system.log
+./var/log/auth.log
+./etc/ssh/sshd_config
+./home/whoismonesh/documents/report.odt
+... (many more files listed by tar -v)
+./boot/vmlinuz-5.15.0-101-generic
+./boot/initrd.img-5.15.0-101-generic
+Full System TAR backup of '/' to '/mnt/backups/local/Full-System-2025-06-19_15-30-00.tar.xz' completed successfully.
+
+--- Managing Backup Retention ---
+Deleting backups older than 7 days from '/mnt/backups/local'...
+removed '/mnt/backups/local/Full-System-2025-06-10_10-00-00.tar.xz'
+removed '/mnt/backups/local/Full-System-2025-06-11_10-00-00.tar.xz'
+Keeping only the last 5 backups from '/mnt/backups/local'...
+removed '/mnt/backups/local/Full-System-2025-06-12_10-00-00.tar.xz'
+removed '/mnt/backups/local/Full-System-2025-06-13_10-00-00.tar.xz'
+Retention policy applied.
+
+--- Verifying Backup Archive ---
+Verifying integrity of '/mnt/backups/local/Full-System-2025-06-19_15-30-00.tar.xz'...
+  Testing compression integrity...
+  Compression integrity OK.
+  Listing contents of archive (first 5 files) to check readability...
+./
+./bin/
+./bin/bash
+./bin/cat
+./bin/chmod
+  Archive content listing OK (first 5 files).
+Backup verification completed for '/mnt/backups/local/Full-System-2025-06-19_15-30-00.tar.xz'.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Backup Solution (WhoisMonesh) <<<
+=====================================================
+1. Full System Backup (tar, excludes /dev, /proc, /sys, etc.)
+2. Backup Specific Directory (tar)
+3. Sync/Incremental Backup (rsync)
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Perform Tar Backup ---
+Enter source directory to backup (e.g., /home/user, /etc): /etc
+Enter backup destination directory (local path or user@host:/path) [/mnt/backups/local]: /mnt/backups/configs
+Choose compression (gz, bz2, xz, default: gz): bz2
+Attempting local backup to /mnt/backups/configs/etc-2025-06-19_15-35-00.tar.bz2...
+/etc/
+/etc/apt/
+/etc/apt/sources.list
+/etc/fstab
+... (files in /etc)
+TAR backup of '/etc' to '/mnt/backups/configs/etc-2025-06-19_15-35-00.tar.bz2' completed successfully.
+
+--- Verifying Backup Archive ---
+Verifying integrity of '/mnt/backups/configs/etc-2025-06-19_15-35-00.tar.bz2'...
+  Testing compression integrity...
+  Compression integrity OK.
+  Listing contents of archive (first 5 files) to check readability...
+etc/
+etc/alternatives/
+etc/alternatives/java
+etc/alternatives/javac
+etc/alternatives/jar
+  Archive content listing OK (first 5 files).
+Backup verification completed for '/mnt/backups/configs/etc-2025-06-19_15-35-00.tar.bz2'.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Backup Solution (WhoisMonesh) <<<
+=====================================================
+1. Full System Backup (tar, excludes /dev, /proc, /sys, etc.)
+2. Backup Specific Directory (tar)
+3. Sync/Incremental Backup (rsync)
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Perform rsync Backup (Incremental) ---
+Enter source path for rsync (e.g., /var/www, /home/user): /home/whoismonesh/data
+Enter rsync destination (local path or user@host:/path) [/mnt/backups/local/rsync_data]: /mnt/backups/user_sync
+Performing rsync backup from '/home/whoismonesh/data' to '/mnt/backups/user_sync'...
+sending incremental file list
+./
+file1.txt
+new_report.pdf
+Rsync backup of '/home/whoismonesh/data' to '/mnt/backups/user_sync' completed successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Backup Solution (WhoisMonesh) <<<
+=====================================================
+1. Full System Backup (tar, excludes /dev, /proc, /sys, etc.)
+2. Backup Specific Directory (tar)
+3. Sync/Incremental Backup (rsync)
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting System Backup Solution. Goodbye!
