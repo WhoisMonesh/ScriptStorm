@@ -1,0 +1,133 @@
+# First, ensure the script is executable:
+# chmod +x kernel-updater.sh
+
+# Then, run the script as root:
+# sudo ./kernel-updater.sh
+
+Detected: APT (Debian/Ubuntu based system)
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Update Automation (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Check for New Kernel Updates
+2. Perform Kernel Update
+3. Update GRUB Configuration
+4. Manage Old Kernels (Remove older versions)
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Checking for New Kernel Updates ---
+Running apt update/check for new kernels...
+New kernel updates are available!
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Update Automation (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Check for New Kernel Updates
+2. Perform Kernel Update
+3. Update GRUB Configuration
+4. Manage Old Kernels (Remove older versions)
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Performing Kernel Update ---
+WARNING: Updating the kernel is a critical operation.
+Ensure you have backups before proceeding. A reboot will be required.
+Do you want to proceed with the kernel update? (yes/no): yes
+
+--- Backing up GRUB Configuration ---
+Successfully backed up /etc/default/grub.
+Successfully backed up /boot/grub/grub.cfg.
+Press Enter to continue...
+
+Running 'sudo apt update && sudo apt upgrade -y' to update kernel...
+Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+... (apt update output)
+The following packages will be upgraded:
+  linux-generic linux-headers-generic linux-image-generic
+3 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 12.5 MB of archives.
+After this operation, 3,072 kB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+... (apt upgrade process)
+Setting up linux-image-6.5.0-28-generic (6.5.0-28.29~22.04.1) ...
+...
+update-initramfs: Generating /boot/initrd.img-6.5.0-28-generic
+Kernel update command executed successfully.
+
+--- Updating GRUB Bootloader Configuration ---
+Running 'sudo update-grub' to update GRUB...
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/init-select.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-6.5.0-28-generic
+Found initrd image: /boot/initrd.img-6.5.0-28-generic
+Found linux image: /boot/vmlinuz-5.15.0-101-generic
+Found initrd image: /boot/initrd.img-5.15.0-101-generic
+...
+done
+GRUB configuration updated successfully.
+Press Enter to continue...
+
+--- Reboot Required ---
+A kernel update has been performed. For changes to take effect, a system reboot is REQUIRED.
+Do you want to reboot now? (yes/no): no
+Reboot deferred. Please remember to reboot your system soon.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Update Automation (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Check for New Kernel Updates
+2. Perform Kernel Update
+3. Update GRUB Configuration
+4. Manage Old Kernels (Remove older versions)
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Managing Old Kernels ---
+Current running kernel: 6.5.0-28-generic
+Listing all installed kernel packages...
+-------------------------------------------------------------------
+linux-headers-5.15.0-101-generic
+linux-headers-6.5.0-28-generic
+linux-image-5.15.0-101-generic
+linux-image-6.5.0-28-generic
+-------------------------------------------------------------------
+Kernels to KEEP (current + 2 most recent):
+  - linux-headers-6.5.0-28-generic
+  - linux-image-6.5.0-28-generic
+  - linux-headers-5.15.0-101-generic
+  - linux-image-5.15.0-101-generic
+Kernels proposed for REMOVAL:
+  No old kernels to remove based on retention policy.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Update Automation (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Check for New Kernel Updates
+2. Perform Kernel Update
+3. Update GRUB Configuration
+4. Manage Old Kernels (Remove older versions)
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Kernel Update Automation. Goodbye!
