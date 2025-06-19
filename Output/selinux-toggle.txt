@@ -1,0 +1,123 @@
+# First, ensure the script is executable:
+# chmod +x selinux-toggle.sh
+
+# Then, run the script as root:
+# sudo ./selinux-toggle.sh
+
+<clear screen>
+=====================================================
+>>> SELinux Status Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current SELinux Status
+2. Set SELinux to Enforcing Mode
+3. Set SELinux to Permissive Mode
+4. Set SELinux to Disabled Mode
+5. About SELinux & Modes
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Current SELinux Status ---
+-----------------------------------------------------
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allow
+Memory protection checking:     actual (strict)
+Max kernel policy version:      33
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SELinux Status Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current SELinux Status
+2. Set SELinux to Enforcing Mode
+3. Set SELinux to Permissive Mode
+4. Set SELinux to Disabled Mode
+5. About SELinux & Modes
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Setting SELinux to PERMISSIVE Mode ---
+WARNING: Changing SELinux mode can affect system security and application behavior.
+PERMISSIVE mode logs violations but does not enforce them. Useful for troubleshooting but provides no security enforcement.
+Are you sure you want to set SELinux to PERMISSIVE mode? (y/N): y
+Updated '/etc/selinux/config' from 'enforcing' to 'permissive'.
+Attempting to set runtime SELinux mode...
+Runtime SELinux mode set to PERMISSIVE!
+SELinux mode configuration updated. Runtime change applied if possible.
+Consider a reboot for the policy to be fully reloaded, especially from permissive to enforcing.
+
+--- Current SELinux Status ---
+-----------------------------------------------------
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   permissive
+Mode from config file:          permissive
+Policy MLS status:              enabled
+Policy deny_unknown status:     allow
+Memory protection checking:     actual (strict)
+Max kernel policy version:      33
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SELinux Status Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current SELinux Status
+2. Set SELinux to Enforcing Mode
+3. Set SELinux to Permissive Mode
+4. Set SELinux to Disabled Mode
+5. About SELinux & Modes
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Setting SELinux to ENFORCING Mode ---
+WARNING: Changing SELinux mode can affect system security and application behavior.
+ENFORCING mode strictly enforces security policies. Misconfiguration can prevent your system from booting or applications from running.
+Are you sure you want to set SELinux to ENFORCING mode? (y/N): y
+Updated '/etc/selinux/config' from 'permissive' to 'enforcing'.
+Attempting to set runtime SELinux mode...
+Runtime SELinux mode set to ENFORCING!
+SELinux mode configuration updated. Runtime change applied if possible.
+Consider a reboot for the policy to be fully reloaded, especially from permissive to enforcing.
+
+--- Current SELinux Status ---
+-----------------------------------------------------
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allow
+Memory protection checking:     actual (strict)
+Max kernel policy version:      33
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SELinux Status Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current SELinux Status
+2. Set SELinux to Enforcing Mode
+3. Set SELinux to Permissive Mode
+4. Set SELinux to Disabled Mode
+5. About SELinux & Modes
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting SELinux Status Manager. Goodbye!
