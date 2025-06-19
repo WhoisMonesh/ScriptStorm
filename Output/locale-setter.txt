@@ -1,0 +1,112 @@
+# First, ensure the script is executable:
+# chmod +x locale-setter.sh
+
+# Then, run the script as root:
+# sudo ./locale-setter.sh
+
+<clear screen>
+=====================================================
+>>> System Locale Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Locale Settings
+2. List Available Locales
+3. Set New System Locale
+4. About System Locales
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Current System Locale ---
+-----------------------------------------------------
+  System Locale: LANG=en_US.UTF-8
+       VC Keymap: us
+      X11 Layout: us
+       X11 Model: pc105
+     X11 Variant:
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Locale Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Locale Settings
+2. List Available Locales
+3. Set New System Locale
+4. About System Locales
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Available Locales ---
+Listing all installed and available locales. This may take a moment...
+-----------------------------------------------------
+     1 aa_DJ.UTF-8
+     2 af_ZA.UTF-8
+     3 am_ET.UTF-8
+     4 an_ES.UTF-8
+     5 ar_AE.UTF-8
+     6 ar_DZ.UTF-8
+     7 ar_EG.UTF-8
+     8 ar_JO.UTF-8
+     9 ar_MA.UTF-8
+    10 ar_SY.UTF-8
+    ...
+  150 en_CA.UTF-8
+  151 en_GB.UTF-8
+  152 en_HK.UTF-8
+  153 en_IE.UTF-8
+  154 en_IN.UTF-8
+  155 en_NZ.UTF-8
+  156 en_PH.UTF-8
+  157 en_SG.UTF-8
+  158 en_US.UTF-8
+  159 en_ZA.UTF-8
+    ...
+  200 fr_FR.UTF-8
+  201 de_DE.UTF-8
+    ... (output truncated for brevity)
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Locale Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Locale Settings
+2. List Available Locales
+3. Set New System Locale
+4. About System Locales
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Set System Locale ---
+It is highly recommended to view the list of available locales (Option 2) first.
+Enter the desired locale (e.g., 'en_US.UTF-8', 'de_DE.UTF-8'): de_DE.UTF-8
+Attempting to set system locale to: de_DE.UTF-8
+Locale set successfully using 'localectl'!
+NOTE: For the changes to fully take effect, you may need to log out and log back in, or reboot.
+
+--- Current System Locale ---
+-----------------------------------------------------
+  System Locale: LANG=de_DE.UTF-8
+       VC Keymap: de
+      X11 Layout: de
+       X11 Model: pc105
+     X11 Variant:
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Locale Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Locale Settings
+2. List Available Locales
+3. Set New System Locale
+4. About System Locales
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting System Locale Configuration. Goodbye!
