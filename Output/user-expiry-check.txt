@@ -1,0 +1,121 @@
+# First, ensure the script is executable:
+# chmod +x user-expiry-check.sh
+
+# Then, run the script as root:
+# sudo ./user-expiry-check.sh
+
+<clear screen>
+=====================================================
+>>> User Account Expiration Check (WhoisMonesh) <<<
+=====================================================
+1. List All Users with Expiry Status
+2. Check for Expired Accounts
+3. Check for Accounts Nearing Expiration (within 30 days)
+4. Modify User Account Expiration Date
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- User Accounts with Expiration Status ---
+Username              Account Expiry Date   Status
+-------------------------------------------------------------------
+whoismonesh           never                 Never Expires
+devuser               06/15/2025            EXPIRED
+testuser              07/10/2025            Expires in 21 days
+sysadmin              never                 Never Expires
+backup_user           12/31/2025            Active
+expired_user_old      05/01/2025            EXPIRED
+user_3days_left       06/22/2025            Expires in 3 days
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Expiration Check (WhoisMonesh) <<<
+=====================================================
+1. List All Users with Expiry Status
+2. Check for Expired Accounts
+3. Check for Accounts Nearing Expiration (within 30 days)
+4. Modify User Account Expiration Date
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Expired User Accounts ---
+The following user accounts are EXPIRED:
+- devuser (Account expired on: 06/15/2025)
+- expired_user_old (Account expired on: 05/01/2025)
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Expiration Check (WhoisMonesh) <<<
+=====================================================
+1. List All Users with Expiry Status
+2. Check for Expired Accounts
+3. Check for Accounts Nearing Expiration (within 30 days)
+4. Modify User Account Expiration Date
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- User Accounts Nearing Expiration (within 30 days) ---
+The following user accounts are nearing expiration:
+- testuser (Expires on: 07/10/2025, in 21 days)
+- user_3days_left (Expires on: 06/22/2025, in 3 days)
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Expiration Check (WhoisMonesh) <<<
+=====================================================
+1. List All Users with Expiry Status
+2. Check for Expired Accounts
+3. Check for Accounts Nearing Expiration (within 30 days)
+4. Modify User Account Expiration Date
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Modify User Account Expiration ---
+Enter username to modify expiry for: testuser
+Current account expiry for 'testuser': 07/10/2025
+Enter new expiry date (YYYY-MM-DD), 'never', or 'clear' to remove expiry.
+New expiry date/option: 2026-12-31
+Are you sure you want to set to 2026-12-31 for user 'testuser'? (yes/no): yes
+User 'testuser' account expiry successfully set to 2026-12-31.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Expiration Check (WhoisMonesh) <<<
+=====================================================
+1. List All Users with Expiry Status
+2. Check for Expired Accounts
+3. Check for Accounts Nearing Expiration (within 30 days)
+4. Modify User Account Expiration Date
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Modify User Account Expiration ---
+Enter username to modify expiry for: devuser
+Current account expiry for 'devuser': 06/15/2025
+Enter new expiry date (YYYY-MM-DD), 'never', or 'clear' to remove expiry.
+New expiry date/option: never
+Are you sure you want to set to never expire for user 'devuser'? (yes/no): yes
+User 'devuser' account expiry successfully set to never expire.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> User Account Expiration Check (WhoisMonesh) <<<
+=====================================================
+1. List All Users with Expiry Status
+2. Check for Expired Accounts
+3. Check for Accounts Nearing Expiration (within 30 days)
+4. Modify User Account Expiration Date
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting User Account Expiration Check. Goodbye!
