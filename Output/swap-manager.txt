@@ -1,0 +1,139 @@
+# First, ensure the script is executable:
+# chmod +x swap-manager.sh
+
+# Then, run the script as root:
+# sudo ./swap-manager.sh
+
+<clear screen>
+=====================================================
+>>> Swap Space Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current Swap Status
+2. Create New Swap File
+3. Remove Existing Swap File
+4. Adjust Swappiness Value
+5. Enable/Disable All Swap
+6. About Swap Space
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Current Swap Status ---
+-----------------------------------------------------
+Free (Memory + Swap):
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       1.5Gi       4.8Gi       100Mi       1.5Gi       6.0Gi
+Swap:          2.0Gi          0B       2.0Gi
+-----------------------------------------------------
+Swap Summary (swapon --show):
+NAME      TYPE   SIZE USED PRIO
+/swapfile file   2G   0B   -2
+-----------------------------------------------------
+Current Swappiness Value:
+vm.swappiness = 60
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Swap Space Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current Swap Status
+2. Create New Swap File
+3. Remove Existing Swap File
+4. Adjust Swappiness Value
+5. Enable/Disable All Swap
+6. About Swap Space
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Create New Swap File ---
+Enter full path for new swap file [/swapfile]: /extra_swap
+Enter desired swap file size (e.g., 512M, 1G, 2G) [2G]: 1G
+Creating swap file '/extra_swap' of size 1G...
+Setting correct permissions for swap file...
+Setting up Linux swap area...
+Activating swap file...
+Swap file created and activated successfully!
+Do you want to add this swap file to /etc/fstab for permanent activation on boot? (Y/n): y
+Swap file added to /etc/fstab.
+
+--- Current Swap Status ---
+-----------------------------------------------------
+Free (Memory + Swap):
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       1.5Gi       4.8Gi       100Mi       1.5Gi       6.0Gi
+Swap:          3.0Gi          0B       3.0Gi
+-----------------------------------------------------
+Swap Summary (swapon --show):
+NAME        TYPE   SIZE USED PRIO
+/swapfile   file   2G   0B   -2
+/extra_swap file   1G   0B   -3
+-----------------------------------------------------
+Current Swappiness Value:
+vm.swappiness = 60
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Swap Space Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current Swap Status
+2. Create New Swap File
+3. Remove Existing Swap File
+4. Adjust Swappiness Value
+5. Enable/Disable All Swap
+6. About Swap Space
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Adjust Swappiness Value ---
+Current vm.swappiness: 60
+Swappiness values range from 0 to 100.
+  - 0: Kernel will avoid swapping process data to disk for as long as possible.
+  - 60 (default): Balanced approach.
+  - 100: Kernel will aggressively swap process data to disk.
+Consider lowering swappiness (e.g., 10-20) for desktop systems with ample RAM.
+High swappiness might be useful for servers handling many idle processes.
+Enter new swappiness value (0-100) [60]: 10
+Setting vm.swappiness to 10 (temporary)...
+vm.swappiness updated successfully for current session!
+Do you want to make this change permanent by adding it to /etc/sysctl.conf? (Y/n): y
+Updating existing vm.swappiness entry in /etc/sysctl.conf...
+Change made permanent in /etc/sysctl.conf.
+Apply changes now with 'sudo sysctl -p' or they will take effect after reboot.
+
+--- Current Swap Status ---
+-----------------------------------------------------
+Free (Memory + Swap):
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       1.5Gi       4.8Gi       100Mi       1.5Gi       6.0Gi
+Swap:          3.0Gi          0B       3.0Gi
+-----------------------------------------------------
+Swap Summary (swapon --show):
+NAME        TYPE   SIZE USED PRIO
+/swapfile   file   2G   0B   -2
+/extra_swap file   1G   0B   -3
+-----------------------------------------------------
+Current Swappiness Value:
+vm.swappiness = 10
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Swap Space Manager (WhoisMonesh) <<<
+=====================================================
+1. Display Current Swap Status
+2. Create New Swap File
+3. Remove Existing Swap File
+4. Adjust Swappiness Value
+5. Enable/Disable All Swap
+6. About Swap Space
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Swap Space Manager. Goodbye!
