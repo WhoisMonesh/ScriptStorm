@@ -1,0 +1,144 @@
+# First, ensure the script is executable:
+# chmod +x failed-logins.sh
+
+# Then, run the script as root:
+# sudo ./failed-logins.sh
+
+<clear screen>
+=====================================================
+>>> Failed Login Monitor (WhoisMonesh) <<<
+=====================================================
+Auth Log File: /var/log/auth.log
+Alert Threshold: 10 failed attempts
+-----------------------------------------------------
+1. Get Failed Login Summary (Users & IPs)
+2. View Recent Failed Attempts (Raw Log)
+3. Check User-specific Failed Login Stats (faillog)
+4. Reset Failed Login Count for a User
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Failed Login Summary (from /var/log/auth.log and /var/log/btmp) ---
+Analyzing failed attempts from /var/log/auth.log...
+
+Top Failed Users (from auth log):
+      8 root
+      5 attacker
+      2 user123
+
+Top Failed Source IPs (from auth log):
+      8 203.0.113.5
+      5 198.51.100.20
+      2 172.16.0.1
+
+Analyzing failed attempts from /var/log/btmp (via lastb)...
+
+Top Failed Users (from lastb):
+      3 root
+      2 guest
+
+Top Failed Source IPs (from lastb):
+      3 203.0.113.5
+      2 10.0.0.1
+-------------------------------------------------------------------
+Total failed login attempts found (recent logs): 13
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Failed Login Monitor (WhoisMonesh) <<<
+=====================================================
+Auth Log File: /var/log/auth.log
+Alert Threshold: 10 failed attempts
+-----------------------------------------------------
+1. Get Failed Login Summary (Users & IPs)
+2. View Recent Failed Attempts (Raw Log)
+3. Check User-specific Failed Login Stats (faillog)
+4. Reset Failed Login Count for a User
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Recent Failed Login Attempts (Last 20 from auth log) ---
+Showing most recent failed attempts from /var/log/auth.log:
+-------------------------------------------------------------------
+Jun 19 09:10:01 my-server sshd[12341]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.5 user=root
+Jun 19 09:10:01 my-server sshd[12341]: Failed password for root from 203.0.113.5 port 12345 ssh2
+Jun 19 09:10:02 my-server sshd[12342]: Invalid user attacker from 198.51.100.20 port 54321
+Jun 19 09:10:02 my-server sshd[12342]: Failed password for invalid user attacker from 198.51.100.20 port 54321 ssh2
+Jun 19 09:10:03 my-server sshd[12343]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.5 user=root
+Jun 19 09:10:03 my-server sshd[12343]: Failed password for root from 203.0.113.5 port 12346 ssh2
+Jun 19 09:10:04 my-server sshd[12344]: Invalid user user123 from 172.16.0.1 port 33333
+Jun 19 09:10:04 my-server sshd[12344]: Failed password for invalid user user123 from 172.16.0.1 port 33333 ssh2
+Jun 19 09:10:05 my-server sshd[12345]: Failed password for root from 203.0.113.5 port 12347 ssh2
+... (truncated for brevity)
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Failed Login Monitor (WhoisMonesh) <<<
+=====================================================
+Auth Log File: /var/log/auth.log
+Alert Threshold: 10 failed attempts
+-----------------------------------------------------
+1. Get Failed Login Summary (Users & IPs)
+2. View Recent Failed Attempts (Raw Log)
+3. Check User-specific Failed Login Stats (faillog)
+4. Reset Failed Login Count for a User
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- User-specific Failed Login Stats (faillog) ---
+Displaying failed login counts per user from faillog:
+-------------------------------------------------------------------
+Login Name        Failed               Last access     From
+root              8                    06/19 09:10:05  203.0.113.5
+attacker          5                    06/19 09:10:02  198.51.100.20
+user123           2                    06/19 09:10:04  172.16.0.1
+guest             3                    06/19 08:30:10  10.0.0.1
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Failed Login Monitor (WhoisMonesh) <<<
+=====================================================
+Auth Log File: /var/log/auth.log
+Alert Threshold: 10 failed attempts
+-----------------------------------------------------
+1. Get Failed Login Summary (Users & IPs)
+2. View Recent Failed Attempts (Raw Log)
+3. Check User-specific Failed Login Stats (faillog)
+4. Reset Failed Login Count for a User
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Reset Failed Login Count for User (faillog -r) ---
+Enter username to reset failed login count for: attacker
+Current failed login stats for 'attacker':
+Login Name        Failed               Last access     From
+attacker          5                    06/19 09:10:02  198.51.100.20
+Are you sure you want to reset failed login count for 'attacker'? (yes/no): yes
+Failed login count for 'attacker' reset successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Failed Login Monitor (WhoisMonesh) <<<
+=====================================================
+Auth Log File: /var/log/auth.log
+Alert Threshold: 10 failed attempts
+-----------------------------------------------------
+1. Get Failed Login Summary (Users & IPs)
+2. View Recent Failed Attempts (Raw Log)
+3. Check User-specific Failed Login Stats (faillog)
+4. Reset Failed Login Count for a User
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Failed Login Monitor. Goodbye!
