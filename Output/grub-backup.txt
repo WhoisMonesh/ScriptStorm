@@ -1,0 +1,106 @@
+# First, ensure the script is executable:
+# chmod +x grub-backup.sh
+
+# Then, run the script as root:
+# sudo ./grub-backup.sh
+
+<clear screen>
+=====================================================
+>>> GRUB Configuration Backup (WhoisMonesh) <<<
+=====================================================
+1. Create New GRUB Backup
+2. List Existing GRUB Backups
+3. About GRUB Backup & Restoration Tips
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Creating GRUB Configuration Backup ---
+GRUB configuration directory '/etc/default' found.
+GRUB scripts directory '/etc/grub.d' found.
+GRUB boot directory '/boot/grub' found.
+All critical GRUB paths found.
+Backing up GRUB configuration files to: /var/backups/grub/grub_backup_2025-06-19_10-00-00.tar.gz
+GRUB backup created successfully!
+Backup file: /var/backups/grub/grub_backup_2025-06-19_10-00-00.tar.gz
+
+NOTE: This backup includes configuration files and modules.
+To restore GRUB fully, you might also need to reinstall GRUB to the MBR/GPT.
+e.g., 'sudo grub-install /dev/sdX' and 'sudo update-grub'.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> GRUB Configuration Backup (WhoisMonesh) <<<
+=====================================================
+1. Create New GRUB Backup
+2. List Existing GRUB Backups
+3. About GRUB Backup & Restoration Tips
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Existing GRUB Backups ---
+-----------------------------------------------------
+Available GRUB Backups:
+-----------------------------------------------------
+grub_backup_2025-06-19_10-00-00.tar.gz
+grub_backup_2025-06-18_15-30-00.tar.gz
+grub_backup_2025-06-17_11-00-00.tar.gz
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> GRUB Configuration Backup (WhoisMonesh) <<<
+=====================================================
+1. Create New GRUB Backup
+2. List Existing GRUB Backups
+3. About GRUB Backup & Restoration Tips
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- About GRUB Backup ---
+Why monitor GRUB?
+  - GRUB (Grand Unified Bootloader) is the default bootloader for most
+    Linux distributions. It's responsible for loading the operating system
+    kernel into memory after the system's firmware (BIOS/UEFI) hands off control.
+
+Why backup GRUB?
+  - Critical Component: A corrupted or misconfigured GRUB can render
+    your system unbootable, even if your operating system files are intact.
+  - Common Scenarios for Corruption:
+    - Dual-booting issues (e.g., Windows overwriting GRUB).
+    - Incorrectly running 'update-grub' or 'grub-install'.
+    - Disk issues.
+  - A backup allows you to restore critical GRUB configuration files,
+    potentially avoiding a lengthy reinstallation or manual repair process.
+
+What's included in this backup?
+  - /etc/default/grub: The main GRUB configuration file ('grub' or 'grub.conf')
+    which defines default settings (e.g., timeout, default kernel).
+  - /etc/grub.d: Scripts that 'update-grub' uses to build 'grub.cfg' (e.g., 10_linux, 30_os-prober).
+  - /boot/grub: Contains compiled GRUB modules, fonts, themes, and the
+    generated 'grub.cfg' file which is the actual boot menu.
+
+Important Note on Restoration:
+  - Restoring these files is only one part of a full GRUB repair.
+  - You might also need to reinstall GRUB to the Master Boot Record (MBR)
+    or GUID Partition Table (GPT) using 'sudo grub-install /dev/sdX'
+    and then run 'sudo update-grub' to regenerate the boot menu.
+  - This script only backs up files; it does not backup the MBR/GPT itself.
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> GRUB Configuration Backup (WhoisMonesh) <<<
+=====================================================
+1. Create New GRUB Backup
+2. List Existing GRUB Backups
+3. About GRUB Backup & Restoration Tips
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting GRUB Configuration Backup script. Goodbye!
