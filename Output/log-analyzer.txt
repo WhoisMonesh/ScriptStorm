@@ -1,0 +1,146 @@
+# First, ensure the script is executable:
+# chmod +x log-analyzer.sh
+
+# Then, run the script (recommended with sudo for full access to logs):
+# sudo ./log-analyzer.sh
+
+<clear screen>
+=====================================================
+>>> System Log Analyzer (WhoisMonesh) <<<
+=====================================================
+1. View Recent Logs from a Specific File
+2. Filter Logs by Keyword from a Specific File
+3. Summarize Errors and Warnings (from selected or common logs)
+4. Analyze Failed Login Attempts
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- View Recent Logs ---
+Enter log file path (e.g., /var/log/syslog): /var/log/syslog
+Number of lines to display (default: 20): 10
+Displaying last 10 lines of '/var/log/syslog':
+-------------------------------------------------------------------
+Jun 19 08:30:01 my-server systemd[1]: Started Session 12 of user whoismonesh.
+Jun 19 08:30:05 my-server CRON[12345]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Jun 19 08:31:01 my-server systemd[1]: Starting Daily apt download activities...
+Jun 19 08:31:02 my-server systemd[1]: apt-daily.service: Deactivated successfully.
+Jun 19 08:31:02 my-server systemd[1]: Finished Daily apt download activities.
+Jun 19 08:32:01 my-server sshd[54321]: Connection closed by authenticating user root 192.168.1.10 port 56789 [preauth]
+Jun 19 08:32:05 my-server systemd[1]: Starting Clean php session files...
+Jun 19 08:32:05 my-server systemd[1]: Finished Clean php session files.
+Jun 19 08:33:01 my-server CRON[12346]: (root) CMD (    cd / && run-parts --report /etc/cron.hourly)
+Jun 19 08:34:01 my-server kernel: [12345.678901] systemd-journald[123]: Spurious error: transport exhausted
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Log Analyzer (WhoisMonesh) <<<
+=====================================================
+1. View Recent Logs from a Specific File
+2. Filter Logs by Keyword from a Specific File
+3. Summarize Errors and Warnings (from selected or common logs)
+4. Analyze Failed Login Attempts
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Filter Logs by Keyword ---
+Enter log file path (e.g., /var/log/auth.log): /var/log/auth.log
+Enter keyword to search for: sshd
+Number of matching lines to display (default: all): 5
+Searching for 'sshd' in '/var/log/auth.log':
+-------------------------------------------------------------------
+Jun 19 08:25:01 my-server sshd[12340]: Accepted publickey for user1 from 192.168.1.50 port 45678 ssh2: RSA SHA256:....
+Jun 19 08:28:10 my-server sshd[12341]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.1.10 user=root
+Jun 19 08:28:10 my-server sshd[12341]: Failed password for root from 192.168.1.10 port 12345 ssh2
+Jun 19 08:29:05 my-server sshd[12342]: Accepted password for user2 from 192.168.1.51 port 98765 ssh2: ED25519 SHA256:....
+Jun 19 08:32:01 my-server sshd[54321]: Connection closed by authenticating user root 192.168.1.10 port 56789 [preauth]
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Log Analyzer (WhoisMonesh) <<<
+=====================================================
+1. View Recent Logs from a Specific File
+2. Filter Logs by Keyword from a Specific File
+3. Summarize Errors and Warnings (from selected or common logs)
+4. Analyze Failed Login Attempts
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Summarize Errors and Warnings ---
+Enter log file path (e.g., /var/log/syslog) or leave empty for all common logs: 
+Analyzing common system logs for 'error|warn|fail' keywords...
+-------------------------------------------------------------------
+File: /var/log/syslog
+  Errors/Failures/Denied: 25
+  Warnings: 10
+  Recent Errors (last 5 unique):
+    Jun 19 08:34:01 my-server kernel: [12345.678901] systemd-journald[123]: Spurious error: transport exhausted
+    Jun 19 08:20:00 my-server CRON[123]: (root) CMD (Failed to execute script: /usr/local/bin/backup.sh)
+    Jun 19 08:15:00 my-server systemd[1]: Failed to start network-online.target.
+  Recent Warnings (last 5 unique):
+    Jun 19 08:10:00 my-server systemd[1]: apache2.service: A process of this unit has been killed by the OOM killer.
+    Jun 19 08:05:00 my-server kernel: [12300.000000] usb 1-1: device not accepting address 2, error -71
+---
+File: /var/log/auth.log
+  Errors/Failures/Denied: 15
+  Warnings: 0
+  Recent Errors (last 5 unique):
+    Jun 19 08:28:10 my-server sshd[12341]: Failed password for root from 192.168.1.10 port 12345 ssh2
+    Jun 19 08:18:05 my-server sshd[12330]: Invalid user attacker from 203.0.113.1 port 22
+---
+File: /var/log/kern.log
+  Errors/Failures/Denied: 8
+  Warnings: 2
+  Recent Errors (last 5 unique):
+    Jun 19 07:55:00 my-server kernel: [12000.000000] VFS: Unable to mount root fs on unknown-block(0,0)
+---
+... (other common log files summarized similarly)
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Log Analyzer (WhoisMonesh) <<<
+=====================================================
+1. View Recent Logs from a Specific File
+2. Filter Logs by Keyword from a Specific File
+3. Summarize Errors and Warnings (from selected or common logs)
+4. Analyze Failed Login Attempts
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Analyze Failed Login Attempts ---
+Analyzing failed login attempts from '/var/log/auth.log' or 'faillog' command...
+-------------------------------------------------------------------
+Summary from faillog:
+Login name  UID   Last login   From Host            Failed Login count   Latest failure on
+root        0     06/19 08:32  192.168.1.10         5                    06/19 08:32:01 +0530
+attacker    1003  Never        203.0.113.1          12                   06/19 08:18:05 +0530
+
+Recent failed SSH/authentication attempts from /var/log/auth.log:
+Jun 19 08:18:05 my-server sshd[12330]: Invalid user attacker from 203.0.113.1 port 22
+Jun 19 08:28:10 my-server sshd[12341]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.1.10 user=root
+Jun 19 08:28:10 my-server sshd[12341]: Failed password for root from 192.168.1.10 port 12345 ssh2
+Jun 19 08:32:01 my-server sshd[54321]: Connection closed by authenticating user root 192.168.1.10 port 56789 [preauth]
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Log Analyzer (WhoisMonesh) <<<
+=====================================================
+1. View Recent Logs from a Specific File
+2. Filter Logs by Keyword from a Specific File
+3. Summarize Errors and Warnings (from selected or common logs)
+4. Analyze Failed Login Attempts
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting System Log Analyzer. Goodbye!
