@@ -1,293 +1,283 @@
 #!/bin/bash
 
-# service-deps.sh - Visualize systemd service dependencies
-# Version: 2.0
-# Author: Your Name
-# Description: Maps service dependencies with visualization, reverse lookup, and detailed analysis
+# service-deps.sh - Maps Service Dependencies
+# Version: 1.0
+# Author: WhoisMonesh - Github: https://github.com/WhoisMonesh/ScriptStorm
+# Date: June 19, 2025
+# Description: This script leverages systemd to map service dependencies.
+#              It allows you to view what a service requires (forward dependencies)
+#              and what services require it (reverse dependencies), as well as
+#              detailed dependency properties.
 
-# Configuration
-LOG_FILE="/var/log/service-deps.log"
-MAX_DEPTH=5
-DEFAULT_DEPTH=3
+# --- Configuration ---
+LOG_FILE="/var/log/service-deps.log" # Log file for script actions and errors
+DATE_FORMAT="+%Y-%m-%d_%H-%M-%S"
 
-# Color definitions
-RED='\033[1;31m'
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[1;34m'
-MAGENTA='\033[1;35m'
-CYAN='\033[1;36m'
+# --- Colors for better readability ---
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# Logging function
-log() {
-    local level="$1"
+# --- Helper Functions ---
+
+log_message() {
+    local type="$1" # INFO, WARN, ERROR, SUCCESS
     local message="$2"
-    local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-    
-    echo -e "[${timestamp}] [${level}] ${message}" | tee -a "$LOG_FILE" >&2
+    echo -e "$(date "$DATE_FORMAT") [${type}] ${message}" | tee -a "$LOG_FILE"
 }
 
-# Check if systemd is available
+print_header() {
+    local title="$1"
+    echo -e "\n${BLUE}================================================================${NC}"
+    echo -e "${BLUE}>>> ${title}${NC}"
+    echo -e "${BLUE}================================================================${NC}"
+}
+
+print_subsection() {
+    local title="$1"
+    echo -e "\n${GREEN}--- ${title} ---${NC}"
+}
+
+check_command() {
+    local cmd="$1"
+    command -v "$cmd" &>/dev/null
+    return $?
+}
+
 check_systemd() {
-    if ! command -v systemctl >/dev/null 2>&1; then
-        echo -e "${RED}ERROR: This script requires systemd/systemctl${NC}" >&2
-        log "ERROR" "Systemd not found - script requires systemctl"
+    if ! check_command "systemctl"; then
+        echo -e "${RED}ERROR: 'systemctl' command not found. This script requires systemd.${NC}"
+        log_message "ERROR" "'systemctl' not found. Systemd is required."
         exit 1
     fi
+    log_message "INFO" "systemctl detected."
 }
 
-# Get service status with color coding
-get_service_status() {
-    local service="$1"
-    if systemctl is-active "$service" >/dev/null 2>&1; then
-        echo -e "${GREEN}active${NC}"
-    elif systemctl is-enabled "$service" >/dev/null 2>&1; then
-        echo -e "${YELLOW}enabled${NC}"
+pause_script() {
+    echo -n "Press Enter to continue..." && read -r
+}
+
+read_user_input() {
+    local prompt="$1"
+    local default_value="$2"
+    local input=""
+
+    if [ -n "$default_value" ]; then
+        echo -n "$prompt [$default_value]: "
     else
-        echo -e "${RED}inactive${NC}"
+        echo -n "$prompt: "
     fi
-}
+    read -r input
 
-# Display service information
-show_service_info() {
-    local service="$1"
-    
-    echo -e "\n${CYAN}=== Service Information ===${NC}"
-    echo -e "Name: ${BLUE}$service${NC}"
-    echo -e "Status: $(get_service_status "$service")"
-    
-    # Show description if available
-    local description=$(systemctl show -p Description --value "$service" 2>/dev/null)
-    [ -n "$description" ] && echo -e "Description: ${MAGENTA}$description${NC}"
-    
-    # Show main PID if running
-    local pid=$(systemctl show -p MainPID --value "$service" 2>/dev/null)
-    if [ "$pid" -ne 0 ] 2>/dev/null; then
-        echo -e "Main PID: ${YELLOW}$pid${NC} ($(ps -p "$pid" -o comm= 2>/dev/null))"
-    fi
-    
-    # Show memory usage if available
-    local memory=$(systemctl show -p MemoryCurrent --value "$service" 2>/dev/null)
-    [ -n "$memory" ] && echo -e "Memory: ${GREEN}$((memory/1024)) MB${NC}"
-}
-
-# Recursive function to show dependencies
-show_dependencies() {
-    local service="$1"
-    local level="$2"
-    local max_level="$3"
-    local reverse="$4"
-    local indent="$5"
-    local last="$6"
-    
-    # Stop if we've reached max depth
-    [ "$level" -gt "$max_level" ] && return
-    
-    # Prepare tree symbols
-    local connector="├── "
-    [ "$last" = "true" ] && connector="└── "
-    
-    # Get service status
-    local status=$(get_service_status "$service")
-    
-    # Print service with proper indentation
-    echo -e "${indent}${connector}${BLUE}$service${NC} [$status]"
-    
-    # Get dependencies based on mode
-    local deps
-    if [ "$reverse" = "true" ]; then
-        deps=$(systemctl list-dependencies --reverse --plain "$service" 2>/dev/null | grep -v "^$service$")
+    if [ -z "$input" ] && [ -n "$default_value" ]; then
+        echo "$default_value"
     else
-        deps=$(systemctl list-dependencies --plain "$service" 2>/dev/null | grep -v "^$service$")
+        echo "$input"
     fi
-    
-    # Count dependencies for proper tree display
-    local count=$(echo "$deps" | wc -l)
-    local new_indent="${indent}    "
-    
-    # Recursively process each dependency
-    local i=1
-    while read -r dep; do
-        [ -z "$dep" ] && continue
-        
-        local is_last="false"
-        [ "$i" -eq "$count" ] && is_last="true"
-        
-        show_dependencies "$dep" $((level + 1)) "$max_level" "$reverse" "$new_indent" "$is_last"
-        i=$((i + 1))
-    done <<< "$deps"
 }
 
-# Main function to analyze service
-analyze_service() {
-    local service="$1"
-    local depth="$2"
-    local reverse="$3"
-    
-    # Validate service exists
-    if ! systemctl list-unit-files | grep -q "^$service"; then
-        echo -e "${RED}Error: Service '$service' not found${NC}" >&2
-        log "ERROR" "Service $service not found"
+# --- Service Dependency Mapping Functions ---
+
+list_all_services() {
+    print_subsection "List All Available Services"
+    echo -e "${CYAN}Listing all loaded service units (may be long). Use 'q' to quit 'less' or 'Space' to page.${NC}"
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    sudo systemctl list-units --type=service --all --no-legend --no-pager 2>/dev/null | less -F -R -X \
+    || log_message "ERROR" "Failed to list services."
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    log_message "INFO" "Listed all services."
+    pause_script
+}
+
+search_services() {
+    print_subsection "Search for a Service"
+    local search_term=$(read_user_input "Enter a search term for service units (e.g., 'ssh', 'apache')" "")
+    if [ -z "$search_term" ]; then
+        echo -e "${YELLOW}Search term cannot be empty. Operation cancelled.${NC}"
+        pause_script
+        return 0
+    fi
+
+    echo -e "${CYAN}Searching for services matching '$search_term':${NC}"
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    sudo systemctl list-units --type=service --all --no-pager --no-legend 2>/dev/null | grep -i "$search_term" \
+    || echo -e "${YELLOW}No services found matching '$search_term'.${NC}"
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    log_message "INFO" "Searched for services matching '$search_term'."
+    pause_script
+}
+
+
+get_service_name() {
+    local prompt_msg="$1"
+    local service_name=$(read_user_input "$prompt_msg (e.g., sshd.service, apache2.service)" "")
+    if [ -z "$service_name" ]; then
+        echo -e "${RED}Service name cannot be empty. Operation cancelled.${NC}"
+        pause_script
         return 1
     fi
-    
-    show_service_info "$service"
-    
-    echo -e "\n${CYAN}=== Dependency Tree ===${NC}"
-    if [ "$reverse" = "true" ]; then
-        echo -e "${YELLOW}(Showing what depends on $service)${NC}"
-    else
-        echo -e "${YELLOW}(Showing what $service depends on)${NC}"
+    # Ensure it ends with .service if not already
+    if [[ ! "$service_name" =~ \.service$ ]]; then
+        service_name="${service_name}.service"
     fi
-    
-    show_dependencies "$service" 1 "$depth" "$reverse" "" "true"
-    
-    # Show additional dependency information
-    echo -e "\n${CYAN}=== Detailed Dependency Info ===${NC}"
-    systemctl show "$service" --property=Requires --property=Wants --property=Requisite \
-        --property=Conflicts --property=Before --property=After --property=OnFailure \
-        --property=PartOf --property=ConsistsOf --property=RequiredBy --property=WantedBy \
-        --property=BoundBy --property=RequiredByOverridable --property=RequiredBy= \
-        --property=WantedBy= --property=RequiredBy= --property=Before= --property=After= \
-        2>/dev/null | grep -v "^$" | sort | sed "s/=/ = /"
+
+    # Basic check if unit exists (systemctl status returns 0 if found)
+    sudo systemctl status "$service_name" &>/dev/null
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}ERROR: Service unit '$service_name' not found or is invalid.${NC}"
+        log_message "ERROR" "Service '$service_name' not found for dependency check."
+        pause_script
+        return 1
+    fi
+    echo "$service_name" # Return the validated service name
 }
 
-# List all services with status
-list_all_services() {
-    echo -e "${CYAN}Listing all services (systemd units):${NC}"
-    systemctl list-units --type=service --all --no-pager --no-legend | \
-        awk '{printf "%-40s %s\n", $1, $4}' | \
-        while read -r line; do
-            local service=$(echo "$line" | awk '{print $1}')
-            local status=$(echo "$line" | awk '{print $2}')
-            case "$status" in
-                active) echo -e "${BLUE}$service${NC} ${GREEN}$status${NC}" ;;
-                enabled) echo -e "${BLUE}$service${NC} ${YELLOW}$status${NC}" ;;
-                *) echo -e "${BLUE}$service${NC} ${RED}$status${NC}" ;;
-            esac
-        done | less -FRX
+
+show_forward_dependencies() {
+    print_subsection "Forward Dependencies (Requires/Wants/After)"
+    local service=$(get_service_name "Enter service unit to show its forward dependencies")
+    if [ $? -ne 0 ]; then return; fi
+
+    echo -e "${CYAN}Dependencies for $service (what it requires/wants):${NC}"
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    sudo systemctl list-dependencies "$service" --all --full --no-pager 2>/dev/null \
+    || log_message "ERROR" "Failed to list forward dependencies for $service."
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    log_message "INFO" "Listed forward dependencies for $service."
+    pause_script
 }
 
-# Search for services by name
-search_services() {
-    local term="$1"
-    echo -e "${CYAN}Searching for services matching: ${YELLOW}$term${NC}"
-    systemctl list-unit-files --type=service --no-legend --no-pager | \
-        grep -i "$term" | awk '{print $1}' | \
-        while read -r service; do
-            local status=$(systemctl is-active "$service" 2>/dev/null)
-            case "$status" in
-                active) echo -e "${BLUE}$service${NC} ${GREEN}$status${NC}" ;;
-                *) echo -e "${BLUE}$service${NC} ${RED}inactive${NC}" ;;
-            esac
-        done
+show_reverse_dependencies() {
+    print_subsection "Reverse Dependencies (Required-By/Wanted-By/Before)"
+    local service=$(get_service_name "Enter service unit to show its reverse dependencies")
+    if [ $? -ne 0 ]; then return; fi
+
+    echo -e "${CYAN}Reverse dependencies for $service (what requires/wants it):${NC}"
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    sudo systemctl list-dependencies "$service" --all --full --reverse --no-pager 2>/dev/null \
+    || log_message "ERROR" "Failed to list reverse dependencies for $service."
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    log_message "INFO" "Listed reverse dependencies for $service."
+    pause_script
 }
 
-# Display help information
-show_help() {
-    echo -e "${CYAN}Usage: $0 [options] [service_name]${NC}"
-    echo -e "Options:"
-    echo -e "  -a, --all           List all available services"
-    echo -e "  -s, --search TERM   Search for services matching TERM"
-    echo -e "  -r, --reverse       Show reverse dependencies (what depends on this service)"
-    echo -e "  -d, --depth NUM     Set maximum depth for dependency tree (default: $DEFAULT_DEPTH)"
-    echo -e "  -h, --help          Show this help message"
-    echo -e "\nExamples:"
-    echo -e "  $0 nginx.service          # Show nginx service dependencies"
-    echo -e "  $0 -r sshd.service        # Show what depends on sshd"
-    echo -e "  $0 -d 5 docker.service    # Show docker dependencies with depth 5"
-    echo -e "  $0 -a                     # List all services"
-    echo -e "  $0 -s network             # Search for services with 'network' in name"
+show_detailed_dependencies() {
+    print_subsection "Detailed Dependency Properties"
+    local service=$(get_service_name "Enter service unit for detailed dependency properties")
+    if [ $? -ne 0 ]; then return; fi
+
+    echo -e "${CYAN}Detailed properties for $service:${NC}"
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    # Filter for common dependency properties from systemctl show
+    sudo systemctl show "$service" --property=Requires \
+                            --property=Requisite \
+                            --property=Wants \
+                            --property=BindsTo \
+                            --property=PartOf \
+                            --property=Conflicts \
+                            --property=Before \
+                            --property=After \
+                            --property=OnFailure \
+                            --property=OnSuccess \
+                            --property=Triggers \
+                            --property=TriggeredBy \
+                            --property=Consumes \
+                            --property=RequiresMountsFor \
+                            --property=Asserts \
+                            --property=Conditions \
+                            --property=Description \
+                            --property=LoadState \
+                            --property=ActiveState \
+                            --property=SubState \
+                            --property=UnitFileState \
+                            --property=ExecStart \
+                            --property=ExecStartPre \
+                            --property=ExecStartPost \
+                            --property=ExecReload \
+                            --property=ExecStop \
+                            --property=ExecStopPost \
+                            --property=Restart \
+                            --property=RestartSec \
+                            --property=TimeoutStartUSec \
+                            --property=TimeoutStopUSec \
+                            --property=PIDFile \
+                            --property=BusName \
+                            --property=RemainAfterExit \
+                            --property=Type \
+                            --property=StartLimitBurst \
+                            --property=StartLimitIntervalSec \
+                            --property=CPUAccounting \
+                            --property=MemoryAccounting \
+                            --property=BlockIOAccounting \
+                            --property=TasksAccounting \
+                            --property=LimitNOFILE \
+                            --property=Delegate \
+                            --property=PrivateTmp \
+                            --property=ProtectSystem \
+                            --property=ProtectHome \
+                            --no-pager 2>/dev/null \
+    || log_message "ERROR" "Failed to show detailed properties for $service."
+    echo -e "${CYAN}-------------------------------------------------------------------${NC}"
+    log_message "INFO" "Showed detailed properties for $service."
+    pause_script
 }
 
-# Main script execution
+# --- Main Script Logic ---
+
+display_main_menu() {
+    clear
+    echo -e "${BLUE}=====================================================${NC}"
+    echo -e "${BLUE}>>> Service Dependency Mapper (WhoisMonesh) <<<${NC}"
+    echo -e "${BLUE}=====================================================${NC}"
+    echo -e "${GREEN}1. List All Available Services${NC}"
+    echo -e "${GREEN}2. Search for a Service${NC}"
+    echo -e "${GREEN}3. Show Forward Dependencies (What a service needs)${NC}"
+    echo -e "${GREEN}4. Show Reverse Dependencies (What needs a service)${NC}"
+    echo -e "${GREEN}5. Show Detailed Dependency Properties${NC}"
+    echo -e "${YELLOW}0. Exit${NC}"
+    echo -e "${BLUE}=====================================================${NC}"
+    echo -n "Enter your choice: "
+}
+
 main() {
-    check_systemd
-    
-    local service=""
-    local depth=$DEFAULT_DEPTH
-    local reverse=false
-    local action="analyze"
-    local search_term=""
-    
-    # Parse command line arguments
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -a|--all)
-                action="list_all"
-                shift
-                ;;
-            -s|--search)
-                action="search"
-                search_term="$2"
-                shift 2
-                ;;
-            -r|--reverse)
-                reverse=true
-                shift
-                ;;
-            -d|--depth)
-                depth="$2"
-                if ! [[ "$depth" =~ ^[0-9]+$ ]]; then
-                    echo -e "${RED}Error: Depth must be a number${NC}" >&2
-                    exit 1
-                fi
-                shift 2
-                ;;
-            -h|--help)
-                show_help
+    # Ensure log directory exists
+    mkdir -p "$(dirname "$LOG_FILE")"
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}ERROR: Could not create log directory $(dirname "$LOG_FILE"). Exiting.${NC}"
+        exit 1
+    fi
+
+    log_message "INFO" "Service dependency script started."
+    check_systemd # Ensure systemd is available
+
+    local choice
+    while true; do
+        display_main_menu
+        read -r choice
+
+        case "$choice" in
+            1) list_all_services ;;
+            2) search_services ;;
+            3) show_forward_dependencies ;;
+            4) show_reverse_dependencies ;;
+            5) show_detailed_dependencies ;;
+            0)
+                echo -e "${CYAN}Exiting Service Dependency Mapper. Goodbye!${NC}"
+                log_message "INFO" "Service dependency script exited."
                 exit 0
                 ;;
-            -*)
-                echo -e "${RED}Error: Unknown option $1${NC}" >&2
-                show_help
-                exit 1
-                ;;
             *)
-                if [ -z "$service" ]; then
-                    service="$1"
-                    # Add .service suffix if not present
-                    [[ "$service" != *.* ]] && service="${service}.service"
-                else
-                    echo -e "${RED}Error: Only one service can be specified${NC}" >&2
-                    exit 1
-                fi
-                shift
+                echo -e "${RED}Invalid choice. Please enter a number between 0 and 5.${NC}"
+                log_message "WARN" "Invalid menu choice: '$choice'."
+                pause_script
                 ;;
         esac
     done
-    
-    # Validate depth
-    if [ "$depth" -gt "$MAX_DEPTH" ]; then
-        echo -e "${YELLOW}Warning: Depth too large, setting to max $MAX_DEPTH${NC}"
-        depth=$MAX_DEPTH
-    fi
-    
-    # Execute the requested action
-    case "$action" in
-        list_all)
-            list_all_services
-            ;;
-        search)
-            if [ -z "$search_term" ]; then
-                echo -e "${RED}Error: Search term cannot be empty${NC}" >&2
-                exit 1
-            fi
-            search_services "$search_term"
-            ;;
-        analyze)
-            if [ -z "$service" ]; then
-                echo -e "${CYAN}No service specified. Showing help:${NC}"
-                show_help
-                exit 0
-            fi
-            analyze_service "$service" "$depth" "$reverse"
-            ;;
-    esac
-    
-    log "INFO" "Script completed successfully"
 }
 
-# Run main function with all arguments
-main "$@"
+# --- Script Entry Point ---
+main
