@@ -1,0 +1,174 @@
+# First, ensure the script is executable:
+# chmod +x kernel-modules.sh
+
+# Then, run the script as root:
+# sudo ./kernel-modules.sh
+
+<clear screen>
+=====================================================
+>>> Kernel Module Manager (WhoisMonesh) <<<
+=====================================================
+1. List Loaded Modules
+2. Get Module Information
+3. Load Kernel Module
+4. Unload Kernel Module
+5. About Kernel Modules & Commands
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Loaded Kernel Modules ---
+-----------------------------------------------------
+Module                  Size  Used by
+nf_nat_ftp             20480  0
+nf_conntrack_ftp       24576  1 nf_nat_ftp
+nf_conntrack_netbios_ns    16384  0
+nf_conntrack_tftp      16384  0
+nf_conntrack_h323      73728  0
+nf_conntrack_pptp      24576  0
+nf_conntrack_sane      20480  0
+iptable_nat            16384  1 nf_nat_ftp
+nf_nat                 49152  1 iptable_nat
+... (output truncated for brevity)
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Module Manager (WhoisMonesh) <<<
+=====================================================
+1. List Loaded Modules
+2. Get Module Information
+3. Load Kernel Module
+4. Unload Kernel Module
+5. About Kernel Modules & Commands
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Get Module Information ---
+Enter the module name (e.g., 'usbhid', 'ext4'): ext4
+Retrieving information for module 'ext4'...
+filename:       /lib/modules/6.5.0-28-generic/kernel/fs/ext4/ext4.ko
+license:        GPL
+description:    Fourth Extended Filesystem
+author:         Remy Card, Stephen Tweedie, Andrew Morton, Zach Brown
+alias:          fs-ext4
+alias:          ext4dev
+depends:        mbcache,jbd2,crc16
+retpoline:      Y
+intree:         Y
+name:           ext4
+vermagic:       6.5.0-28-generic SMP preempt mod_unload modversions
+sig_id:         PKCS#7
+signer:         Build time autogen
+sig_key:        7B:DB:12:F1:C3:...
+sig_hashalgo:   sha512
+signature:      AA:10:9B:F3:D5:CD:...
+parm:           min_batch_time:minimum time in ms for a commit to complete (int)
+parm:           max_batch_time:maximum time in ms for a commit to complete (int)
+... (output truncated for brevity)
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Module Manager (WhoisMonesh) <<<
+=====================================================
+1. List Loaded Modules
+2. Get Module Information
+3. Load Kernel Module
+4. Unload Kernel Module
+5. About Kernel Modules & Commands
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Load Kernel Module ---
+Enter the module name to load (e.g., 'nfs', 'vboxdrv'): loop
+Enter module options (optional, e.g., 'debug=1'):
+WARNING: Loading incorrect modules or modules with bad options can destabilize your system.
+Are you sure you want to load module 'loop'? (y/N): y
+Loading module 'loop' with options ''...
+Module 'loop' loaded successfully!
+
+--- Loaded Kernel Modules ---
+-----------------------------------------------------
+Module                  Size  Used by
+loop                   40960  0
+nf_nat_ftp             20480  0
+nf_conntrack_ftp       24576  1 nf_nat_ftp
+nf_conntrack_netbios_ns    16384  0
+nf_conntrack_tftp      16384  0
+nf_conntrack_h323      73728  0
+nf_conntrack_pptp      24576  0
+nf_conntrack_sane      20480  0
+iptable_nat            16384  1 nf_nat_ftp
+nf_nat                 49152  1 iptable_nat
+... (output truncated for brevity)
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Module Manager (WhoisMonesh) <<<
+=====================================================
+1. List Loaded Modules
+2. Get Module Information
+3. Load Kernel Module
+4. Unload Kernel Module
+5. About Kernel Modules & Commands
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Unload Kernel Module ---
+--- Loaded Kernel Modules ---
+-----------------------------------------------------
+Module                  Size  Used by
+loop                   40960  0
+nf_nat_ftp             20480  0
+nf_conntrack_ftp       24576  1 nf_nat_ftp
+nf_conntrack_netbios_ns    16384  0
+nf_conntrack_tftp      16384  0
+nf_conntrack_h323      73728  0
+nf_conntrack_pptp      24576  0
+nf_conntrack_sane      20480  0
+iptable_nat            16384  1 nf_nat_ftp
+nf_nat                 49152  1 iptable_nat
+... (output truncated for brevity)
+-----------------------------------------------------
+Enter the module name to unload (e.g., 'usbhid', 'nf_conntrack'): loop
+WARNING: Unloading critical modules can crash your system or lose functionality!
+Are you sure you want to unload module 'loop'? (y/N): y
+Unloading module 'loop'...
+Module 'loop' unloaded successfully!
+
+--- Loaded Kernel Modules ---
+-----------------------------------------------------
+Module                  Size  Used by
+nf_nat_ftp             20480  0
+nf_conntrack_ftp       24576  1 nf_nat_ftp
+nf_conntrack_netbios_ns    16384  0
+nf_conntrack_tftp      16384  0
+nf_conntrack_h323      73728  0
+nf_conntrack_pptp      24576  0
+nf_conntrack_sane      20480  0
+iptable_nat            16384  1 nf_nat_ftp
+nf_nat                 49152  1 iptable_nat
+... (output truncated for brevity)
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Kernel Module Manager (WhoisMonesh) <<<
+=====================================================
+1. List Loaded Modules
+2. Get Module Information
+3. Load Kernel Module
+4. Unload Kernel Module
+5. About Kernel Modules & Commands
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Kernel Module Manager. Goodbye!
