@@ -1,0 +1,220 @@
+# First, ensure the script is executable:
+# chmod +x firewall-setup.sh
+
+# Then, run the script as root:
+# sudo ./firewall-setup.sh
+
+Detected firewall manager: UFW (Uncomplicated Firewall)
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Firewall Status ---
+Current firewall status:
+-------------------------------------------------------------------
+Status: inactive
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 7
+
+--- Allow Service: ssh ---
+Enter common service name to allow (e.g., ssh, http, https, ftp): ssh
+Rule added
+Rule added (v6)
+Service 'ssh' allowed successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Enabling Firewall ---
+Are you sure you want to enable the firewall? This might block connections if not configured properly. (yes/no): yes
+Firewall enabled successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Firewall Status ---
+Current firewall status:
+-------------------------------------------------------------------
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere                  
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 5
+
+--- Allow Port 8080/tcp ---
+Enter port number to allow (e.g., 8080): 8080
+Enter protocol (tcp/udp/all, default: tcp): tcp
+Rule added
+Rule added (v6)
+Port 8080/tcp allowed successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Firewall Status ---
+Current firewall status:
+-------------------------------------------------------------------
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere                  
+8080/tcp                   ALLOW       Anywhere                  
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+8080/tcp (v6)              ALLOW       Anywhere (v6)             
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Reset Firewall Rules ---
+WARNING: This will delete ALL existing firewall rules and set to defaults!
+You will need to re-add any necessary rules (e.g., SSH) after reset.
+Are you absolutely sure you want to reset the firewall? (yes/no): yes
+Resetting all rules to installed defaults. This may interrupt existing ssh connections.
+Firewall rules reset successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Basic Firewall Configuration (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Ufw
+-----------------------------------------------------
+1. Check Firewall Status
+2. Enable Firewall (with default policies)
+3. Disable Firewall
+4. Reset All Firewall Rules (DANGEROUS!)
+5. Allow a Specific Port/Protocol
+6. Deny/Remove a Specific Port/Protocol
+7. Allow a Common Service (e.g., ssh, http, https)
+8. Deny/Remove a Common Service
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Basic Firewall Configuration. Goodbye!
