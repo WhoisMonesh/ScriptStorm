@@ -1,0 +1,98 @@
+# First, ensure the script is executable:
+# chmod +x set-timezone.sh
+
+# Then, run the script as root:
+# sudo ./set-timezone.sh
+
+<clear screen>
+=====================================================
+>>> System Timezone Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Timezone
+2. List Available Timezones
+3. Set System Timezone
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Current System Timezone ---
+-----------------------------------------------------
+  Time zone: Asia/Kolkata (IST, +0530)
+  RTC time: Thursday 2025-06-19 09:49:28 IST
+  System clock synchronized: yes
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Timezone Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Timezone
+2. List Available Timezones
+3. Set System Timezone
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Available Timezones ---
+Listing all available timezones. This may take a moment...
+-----------------------------------------------------
+     1 Africa/Abidjan
+     2 Africa/Accra
+     3 Africa/Addis_Ababa
+     4 Africa/Algiers
+     5 Africa/Asmara
+     6 Africa/Bamako
+     7 Africa/Bangui
+     8 Africa/Banjul
+     9 Africa/Bissau
+    10 Africa/Blantyre
+    ...
+  203 Asia/Kolkata
+    ...
+  301 America/New_York
+  302 America/Nome
+  303 America/Noronha
+  304 America/North_Dakota/Beulah
+  305 America/North_Dakota/Center
+  306 America/North_Dakota/New_Salem
+    ... (output truncated for brevity)
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Timezone Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Timezone
+2. List Available Timezones
+3. Set System Timezone
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Set System Timezone ---
+It is highly recommended to view the list of available timezones (Option 2) first.
+Enter the desired timezone (e.g., 'America/New_York', 'Asia/Kolkata'): America/New_York
+Setting timezone to: America/New_York
+Timezone set successfully!
+
+--- Current System Timezone ---
+-----------------------------------------------------
+  Time zone: America/New_York (EDT, -0400)
+  RTC time: Thursday 2025-06-19 00:19:28 EDT
+  System clock synchronized: yes
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Timezone Configuration (WhoisMonesh) <<<
+=====================================================
+1. Display Current Timezone
+2. List Available Timezones
+3. Set System Timezone
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting System Timezone Configuration. Goodbye!
