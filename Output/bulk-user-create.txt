@@ -1,0 +1,88 @@
+Dummy Input File (users.csv)
+Before running the script, you'll need a CSV file with user details. Create a file named users.csv (or whatever you prefer) with content like this:
+
+# This is a comment line and will be ignored
+# username,fullname,primary_group,secondary_groups,shell,home_directory
+johndoe,John Doe,users,sudo;webdev,/bin/bash,
+janedoe,Jane Doe,users,ftpusers,
+sysuser,System User,,,/sbin/nologin,
+newadmin,New Admin,sudo,devops;adm,,/home/admins/newadmin
+existinguser,Existing User,users,,
+
+
+
+This output simulates running the bulk-user-create.sh script, interacting with it to create users from the users.csv file.
+
+# First, ensure the script is executable:
+# chmod +x bulk-user-create.sh
+
+# Create the dummy CSV file (e.g., users.csv)
+# nano users.csv
+# Paste the content from above (Dummy Input File) and save it.
+
+# Then, run the script as root:
+# sudo ./bulk-user-create.sh
+
+<clear screen>
+=====================================================
+>>> Bulk User Account Creation (WhoisMonesh) <<<
+=====================================================
+1. Create Users from CSV File
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Process User Data File ---
+Enter path to user data CSV file: users.csv
+
+Analyzing user data from 'users.csv'...
+
+Expected CSV format (comma-separated):
+username,fullname,primary_group,secondary_groups (optional),shell (optional),home_directory (optional)
+Example: jdoe,John Doe,users,sudo;developers,/bin/bash,/home/jdoe
+-------------------------------------------------------------------
+User Creation Summary with Passwords (Save this file securely!):
+------------------------------------------------------------------
+
+Processing user: johndoe...
+Password set for 'johndoe'.
+User 'johndoe' will be forced to change password on first login.
+User 'johndoe' added to secondary group 'sudo'.
+User 'johndoe' added to secondary group 'webdev'.
+
+Processing user: janedoe...
+Password set for 'janedoe'.
+User 'janedoe' will be forced to change password on first login.
+User 'janedoe' added to secondary group 'ftpusers'.
+
+Processing user: sysuser...
+Password set for 'sysuser'.
+User 'sysuser' will be forced to change password on first login.
+
+Processing user: newadmin...
+Password set for 'newadmin'.
+User 'newadmin' will be forced to change password on first login.
+WARNING: Group 'devops' does not exist. Creating it.
+User 'newadmin' added to secondary group 'devops'.
+User 'newadmin' added to secondary group 'adm'.
+
+Processing user: existinguser...
+WARNING: User 'existinguser' already exists. Skipping.
+
+-------------------------------------------------------------------
+Bulk User Creation Process Completed.
+Total users processed: 5
+Users created successfully: 4
+Users failed/skipped: 1
+IMPORTANT: Review '/tmp/new_user_passwords_20250619100000.txt' for newly created user credentials.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Bulk User Account Creation (WhoisMonesh) <<<
+=====================================================
+1. Create Users from CSV File
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Bulk User Account Creation. Goodbye!
