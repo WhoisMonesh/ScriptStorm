@@ -1,0 +1,116 @@
+# First, ensure the script is executable:
+# chmod +x temp-monitor.sh
+
+# Then, run the script (sudo recommended for disk temps via smartctl):
+# sudo ./temp-monitor.sh
+
+<clear screen>
+=====================================================
+>>> System Temperature Monitor (WhoisMonesh) <<<
+=====================================================
+CPU Warning: 70°C, Critical: 85°C
+Disk Warning: 45°C, Critical: 55°C
+-----------------------------------------------------
+1. Display Current Temperatures Once
+2. Start Continuous Monitoring
+3. About Temperature Monitoring & Troubleshooting
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Current System Temperatures ---
+Last Updated: 2025-06-19_10-00-00
+-----------------------------------------------------
+CPU Temperatures:
+Core 0: +45.0 C
+Core 1: +43.0 C
+Package id 0: +48.0 C
+-----------------------------------------------------
+Disk Temperatures:
+Disk sda: 40 C
+Disk sdb: 42 C
+-----------------------------------------------------
+CPU Temperature: OK (48.0 C)
+Disk Temperature: OK (42 C)
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Temperature Monitor (WhoisMonesh) <<<
+=====================================================
+CPU Warning: 70°C, Critical: 85°C
+Disk Warning: 45°C, Critical: 55°C
+-----------------------------------------------------
+1. Display Current Temperatures Once
+2. Start Continuous Monitoring
+3. About Temperature Monitoring & Troubleshooting
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Continuous Temperature Monitoring ---
+Monitoring temperatures every 5 seconds. Press Ctrl+C to stop.
+=====================================================
+>>> Current System Temperatures <<<
+=====================================================
+Last Updated: 2025-06-19_10-00-05
+-----------------------------------------------------
+CPU Temperatures:
+Core 0: +46.0 C
+Core 1: +45.0 C
+Package id 0: +49.0 C
+-----------------------------------------------------
+Disk Temperatures:
+Disk sda: 40 C
+Disk sdb: 42 C
+-----------------------------------------------------
+CPU Temperature: OK (49.0 C)
+Disk Temperature: OK (42 C)
+=====================================================
+>>> Current System Temperatures <<<
+=====================================================
+Last Updated: 2025-06-19_10-00-10
+-----------------------------------------------------
+CPU Temperatures:
+Core 0: +47.0 C
+Core 1: +46.0 C
+Package id 0: +50.0 C
+-----------------------------------------------------
+Disk Temperatures:
+Disk sda: 41 C
+Disk sdb: 43 C
+-----------------------------------------------------
+CPU Temperature: OK (50.0 C)
+Disk Temperature: OK (43 C)
+=====================================================
+>>> Current System Temperatures <<<
+=====================================================
+Last Updated: 2025-06-19_10-00-15
+-----------------------------------------------------
+CPU Temperatures:
+Core 0: +71.0 C
+Core 1: +70.0 C
+Package id 0: +75.0 C
+-----------------------------------------------------
+Disk Temperatures:
+Disk sda: 50 C
+Disk sdb: 56 C
+-----------------------------------------------------
+CRITICAL: CPU temperature (75.0 C) is above critical threshold (85 C)!
+WARNING: Disk temperature (56 C) is above warning threshold (45 C).
+^C (User presses Ctrl+C to stop monitoring)
+
+<clear screen>
+=====================================================
+>>> System Temperature Monitor (WhoisMonesh) <<<
+=====================================================
+CPU Warning: 70°C, Critical: 85°C
+Disk Warning: 45°C, Critical: 55°C
+-----------------------------------------------------
+1. Display Current Temperatures Once
+2. Start Continuous Monitoring
+3. About Temperature Monitoring & Troubleshooting
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting System Temperature Monitor. Goodbye!
