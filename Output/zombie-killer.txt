@@ -1,0 +1,148 @@
+# First, ensure the script is executable:
+# chmod +x zombie-killer.sh
+
+# Then, run the script as root:
+# sudo ./zombie-killer.sh
+
+<clear screen>
+=====================================================
+>>> Zombie Process Killer (WhoisMonesh) <<<
+=====================================================
+Zombie Alert Threshold: 10 processes
+-----------------------------------------------------
+1. Find and List Zombie Processes
+2. Attempt to Clean Up Zombie (Signal Parent) - DANGEROUS!
+3. Explain Zombie Processes
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Understanding Zombie Processes ---
+What is a Zombie Process (Defunct Process)?
+  A zombie process is a process that has completed its execution but still has an
+  entry in the process table. This happens because its parent process has not yet
+  'reaped' it, meaning it hasn't called the 'wait()' system call to read its exit status.
+
+Why do they occur?
+  They are usually temporary. A normal parent process will eventually call 'wait()'
+  and clear the zombie. Problems arise when:
+  - The parent process is buggy and never calls 'wait()'.
+  - The parent process itself crashes or terminates before reaping its child.
+    In this case, the zombie child is 'reparented' to the 'init' process (PID 1) or
+    'systemd' on modern Linux systems. PID 1 is specially designed to reap orphan
+    processes, including zombies. Persistent zombies with PID 1 as parent might
+    indicate a bug in the init system or unusual kernel state.
+
+Do Zombies consume resources?
+  Zombies consume very minimal resources: just an entry in the process table (PID).
+  They don't run, execute code, or consume CPU/memory. However, a large number of
+  zombies can exhaust the PID limit, preventing new processes from starting.
+
+How to 'kill' a Zombie?
+  You CANNOT kill a zombie process directly using 'kill -9 <PID>'. It's already 'dead'.
+  The ONLY way to remove a zombie is for its parent process to reap it.
+  - If the parent is still running and misbehaving, you might try to signal the parent
+    process (e.g., SIGCHLD, SIGTERM) to encourage it to reap its child. Killing the
+    parent process will also orphan the zombie, and PID 1 will usually reap it.
+  - If the parent is PID 1, and the zombie persists, a system reboot is usually the
+    only practical way to clear them, as it indicates a deeper issue.
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Zombie Process Killer (WhoisMonesh) <<<
+=====================================================
+Zombie Alert Threshold: 10 processes
+-----------------------------------------------------
+1. Find and List Zombie Processes
+2. Attempt to Clean Up Zombie (Signal Parent) - DANGEROUS!
+3. Explain Zombie Processes
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Finding Zombie Processes ---
+Searching for zombie processes and their parent PIDs...
+-------------------------------------------------------------------
+  PID    PPID   USER    STAT  COMMAND
+-------------------------------------------------------------------
+ 1234   5678    user1   Z     [my_app_process] <defunct>
+ 1235   5678    user1   Z     [my_app_process] <defunct>
+ 1236   1       root    Z     [another_process] <defunct>
+-------------------------------------------------------------------
+Total zombie processes found: 3
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Zombie Process Killer (WhoisMonesh) <<<
+=====================================================
+Zombie Alert Threshold: 10 processes
+-----------------------------------------------------
+1. Find and List Zombie Processes
+2. Attempt to Clean Up Zombie (Signal Parent) - DANGEROUS!
+3. Explain Zombie Processes
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Attempt to Clean Up Zombie (via Parent) ---
+WARNING: You CANNOT directly kill a zombie process.
+To clear a zombie, its PARENT process must reap it.
+Attempting to kill or signal a parent process can lead to data loss or system instability!
+ONLY PROCEED IF YOU UNDERSTAND THE RISKS!
+Found these zombie processes:
+-------------------------------------------------------------------
+    NUM    PID   PPID   USER    STAT  COMMAND
+-------------------------------------------------------------------
+      1   1234   5678   user1   Z     [my_app_process] <defunct>
+      2   1235   5678   user1   Z     [my_app_process] <defunct>
+      3   1236      1   root    Z     [another_process] <defunct>
+-------------------------------------------------------------------
+Enter the number of the zombie whose parent you want to signal (0 to cancel): 1
+Selected Zombie: PID=1234, CMD='[my_app_process] <defunct>'
+Parent Process: PID=5678, User=user1
+Enter signal to send to parent (e.g., SIGCHLD, SIGTERM, SIGKILL, default: SIGCHLD): SIGCHLD
+CRITICAL WARNING: Sending SIGCHLD to PID 5678 (parent of zombie 1234). This can disrupt the parent process!
+Are you absolutely sure you want to send SIGCHLD to PID 5678? (yes/no): yes
+Signal 'SIGCHLD' sent to parent PID 5678. Monitor for zombie removal.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Zombie Process Killer (WhoisMonesh) <<<
+=====================================================
+Zombie Alert Threshold: 10 processes
+-----------------------------------------------------
+1. Find and List Zombie Processes
+2. Attempt to Clean Up Zombie (Signal Parent) - DANGEROUS!
+3. Explain Zombie Processes
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Finding Zombie Processes ---
+Searching for zombie processes and their parent PIDs...
+-------------------------------------------------------------------
+  PID    PPID   USER    STAT  COMMAND
+-------------------------------------------------------------------
+ 1235   5678    user1   Z     [my_app_process] <defunct>
+ 1236   1       root    Z     [another_process] <defunct>
+-------------------------------------------------------------------
+Total zombie processes found: 2
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Zombie Process Killer (WhoisMonesh) <<<
+=====================================================
+Zombie Alert Threshold: 10 processes
+-----------------------------------------------------
+1. Find and List Zombie Processes
+2. Attempt to Clean Up Zombie (Signal Parent) - DANGEROUS!
+3. Explain Zombie Processes
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Zombie Process Killer. Goodbye!
