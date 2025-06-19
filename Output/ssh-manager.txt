@@ -1,0 +1,356 @@
+# First, ensure the script is executable:
+# chmod +x ssh-manager.sh
+
+# Then, run the script (some server operations require sudo, client/key ops don't):
+# ./ssh-manager.sh
+
+<clear screen>
+=====================================================
+>>> SSH Manager (WhoisMonesh) <<<
+=====================================================
+1. SSH Client Configuration (~/.ssh/config)
+2. SSH Key Management (~/.ssh/)
+3. SSH Server Configuration (/etc/ssh/sshd_config)
+0. Exit
+=====================================================
+Enter your choice: 1
+
+<clear screen>
+=====================================================
+>>> SSH Client Configuration (WhoisMonesh) <<<
+=====================================================
+1. Add/Edit Host Entry
+2. Remove Host Entry
+3. List All Host Entries
+4. Test SSH Connection
+0. Back to Main Menu
+=====================================================
+Enter your choice: 1
+
+--- Add/Edit SSH Client Host Entry ---
+Enter Host alias (e.g., myserver, test-vm): devserver
+Enter HostName (IP address or FQDN): 192.168.1.10
+Enter User: devuser
+Enter Port (default: 22): 2222
+Enter IdentityFile (e.g., ~/.ssh/id_rsa or leave empty): ~/.ssh/id_devserver
+Adding/Updating entry for Host devserver...
+Host 'devserver' added/updated successfully in /home/whoismonesh/.ssh/config.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Client Configuration (WhoisMonesh) <<<
+=====================================================
+1. Add/Edit Host Entry
+2. Remove Host Entry
+3. List All Host Entries
+4. Test SSH Connection
+0. Back to Main Menu
+=====================================================
+Enter your choice: 3
+
+--- List SSH Client Hosts ---
+Contents of /home/whoismonesh/.ssh/config:
+-------------------------------------------------------------------
+Host devserver
+  HostName 192.168.1.10
+  User devuser
+  Port 2222
+  IdentityFile ~/.ssh/id_devserver
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Client Configuration (WhoisMonesh) <<<
+=====================================================
+1. Add/Edit Host Entry
+2. Remove Host Entry
+3. List All Host Entries
+4. Test SSH Connection
+0. Back to Main Menu
+=====================================================
+Enter your choice: 0
+
+<clear screen>
+=====================================================
+>>> SSH Manager (WhoisMonesh) <<<
+=====================================================
+1. SSH Client Configuration (~/.ssh/config)
+2. SSH Key Management (~/.ssh/)
+3. SSH Server Configuration (/etc/ssh/sshd_config)
+0. Exit
+=====================================================
+Enter your choice: 2
+
+<clear screen>
+=====================================================
+>>> SSH Key Management (WhoisMonesh) <<<
+=====================================================
+1. Generate New Key Pair
+2. List SSH Key Pairs
+3. Copy Public Key to Server (ssh-copy-id)
+4. Delete SSH Key Pair
+0. Back to Main Menu
+=====================================================
+Enter your choice: 1
+
+--- Generate New SSH Key Pair ---
+Enter key type (rsa, dsa, ecdsa, ed25519, default: rsa): ed25519
+Enter key file name (e.g., id_rsa, default: id_ed25519) - will be in /home/whoismonesh/.ssh: id_prodserver
+Generating ed25519 key pair as '/home/whoismonesh/.ssh/id_prodserver'...
+Generating public/private ed25519 key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/whoismonesh/.ssh/id_prodserver
+Your public key has been saved in /home/whoismonesh/.ssh/id_prodserver.pub
+The key fingerprint is:
+SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx whoismonesh@myhost
+The key's randomart image is:
++--[ED25519 256]--+
+|      .+=+       |
+|     . oX=.      |
+|      .o*+=      |
+|     o =o.       |
+|    . . S        |
+|     .           |
+|                 |
+|                 |
+|                 |
++----[SHA256]-----+
+SSH key pair generated successfully:
+  Public Key: /home/whoismonesh/.ssh/id_prodserver.pub
+  Private Key: /home/whoismonesh/.ssh/id_prodserver
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Key Management (WhoisMonesh) <<<
+=====================================================
+1. Generate New Key Pair
+2. List SSH Key Pairs
+3. Copy Public Key to Server (ssh-copy-id)
+4. Delete SSH Key Pair
+0. Back to Main Menu
+=====================================================
+Enter your choice: 2
+
+--- List SSH Key Pairs ---
+SSH Public Keys in /home/whoismonesh/.ssh:
+-------------------------------------------------------------------
+/home/whoismonesh/.ssh/id_devserver.pub 51 Jun 19 15:40 id_devserver@myhost
+/home/whoismonesh/.ssh/id_prodserver.pub 51 Jun 19 15:45 id_prodserver@myhost
+/home/whoismonesh/.ssh/id_rsa.pub 51 Jun 19 10:00 whoismonesh@myhost
+-------------------------------------------------------------------
+SSH Private Keys in /home/whoismonesh/.ssh:
+-------------------------------------------------------------------
+id_devserver 51 Jun 19 15:40
+id_prodserver 51 Jun 19 15:45
+id_rsa 51 Jun 19 10:00
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Key Management (WhoisMonesh) <<<
+=====================================================
+1. Generate New Key Pair
+2. List SSH Key Pairs
+3. Copy Public Key to Server (ssh-copy-id)
+4. Delete SSH Key Pair
+0. Back to Main Menu
+=====================================================
+Enter your choice: 3
+
+--- Copy Public Key to Remote Server ---
+Enter user@host to copy ID to (e.g., user@server.example.com): produser@prod.server.com
+Enter path to public key file (e.g., ~/.ssh/id_rsa.pub, default: ~/.ssh/id_rsa.pub): ~/.ssh/id_prodserver.pub
+Copying '/home/whoismonesh/.ssh/id_prodserver.pub' to 'produser@prod.server.com' using ssh-copy-id...
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/whoismonesh/.ssh/id_prodserver.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+produser@prod.server.com's password: 
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'produser@prod.server.com'"
+and check to make sure that only the key(s) you wanted were added.
+Public key copied successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Key Management (WhoisMonesh) <<<
+=====================================================
+1. Generate New Key Pair
+2. List SSH Key Pairs
+3. Copy Public Key to Server (ssh-copy-id)
+4. Delete SSH Key Pair
+0. Back to Main Menu
+=====================================================
+Enter your choice: 0
+
+<clear screen>
+=====================================================
+>>> SSH Manager (WhoisMonesh) <<<
+=====================================================
+1. SSH Client Configuration (~/.ssh/config)
+2. SSH Key Management (~/.ssh/)
+3. SSH Server Configuration (/etc/ssh/sshd_config)
+0. Exit
+=====================================================
+Enter your choice: 3
+
+<clear screen>
+=====================================================
+>>> SSH Server Configuration (WhoisMonesh) <<<
+=====================================================
+1. View Current sshd_config
+2. Modify SSH Port
+3. Modify PermitRootLogin
+4. Modify PasswordAuthentication
+5. Modify PubkeyAuthentication
+6. Manage User/Group Access (Allow/DenyUsers/Groups)
+7. Reload SSH Service
+8. Restore sshd_config from Backup
+0. Back to Main Menu
+=====================================================
+Enter your choice: 1
+
+--- View SSH Server Configuration ---
+Contents of /etc/ssh/sshd_config:
+-------------------------------------------------------------------
+# This is the sshd server system-wide configuration file.
+# See sshd_config(5) for more information.
+
+Port 22
+PermitRootLogin prohibit-password
+#PubkeyAuthentication yes
+PasswordAuthentication yes
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+AcceptEnv LANG LC_*
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Server Configuration (WhoisMonesh) <<<
+=====================================================
+1. View Current sshd_config
+2. Modify SSH Port
+3. Modify PermitRootLogin
+4. Modify PasswordAuthentication
+5. Modify PubkeyAuthentication
+6. Manage User/Group Access (Allow/DenyUsers/Groups)
+7. Reload SSH Service
+8. Restore sshd_config from Backup
+0. Back to Main Menu
+=====================================================
+Enter your choice: 2
+
+--- Modify SSH Port ---
+Current value(s) for Port:
+Port 22
+Default/Recommended: 22
+Enter new value for Port [22]: 2222
+Apply change: Port 2222? (yes/no): yes
+Backed up /etc/ssh/sshd_config to /var/backups/sshd_config/sshd_config.2025-06-19_15-50-00.
+Setting 'Port' updated to '2222' successfully.
+
+--- Reloading SSH Service ---
+Attempting to reload sshd service...
+SSHD service reloaded successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Server Configuration (WhoisMonesh) <<<
+=====================================================
+1. View Current sshd_config
+2. Modify SSH Port
+3. Modify PermitRootLogin
+4. Modify PasswordAuthentication
+5. Modify PubkeyAuthentication
+6. Manage User/Group Access (Allow/DenyUsers/Groups)
+7. Reload SSH Service
+8. Restore sshd_config from Backup
+0. Back to Main Menu
+=====================================================
+Enter your choice: 3
+
+--- Modify PermitRootLogin ---
+Current value(s) for PermitRootLogin:
+PermitRootLogin prohibit-password
+Default/Recommended: Options: yes, prohibit-password, forced-commands-only, no
+Enter new value for PermitRootLogin [prohibit-password]: no
+Apply change: PermitRootLogin no? (yes/no): yes
+Backed up /etc/ssh/sshd_config to /var/backups/sshd_config/sshd_config.2025-06-19_15-55-00.
+Setting 'PermitRootLogin' updated to 'no' successfully.
+
+--- Reloading SSH Service ---
+Attempting to reload sshd service...
+SSHD service reloaded successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Server Configuration (WhoisMonesh) <<<
+=====================================================
+1. View Current sshd_config
+2. Modify SSH Port
+3. Modify PermitRootLogin
+4. Modify PasswordAuthentication
+5. Modify PubkeyAuthentication
+6. Manage User/Group Access (Allow/DenyUsers/Groups)
+7. Reload SSH Service
+8. Restore sshd_config from Backup
+0. Back to Main Menu
+=====================================================
+Enter your choice: 6
+
+--- Manage SSHD User/Group Access (Allow/Deny) ---
+1. AllowUsers / DenyUsers
+2. AllowGroups / DenyGroups
+Choose type to manage (1 or 2, 0 to cancel): 1
+Current 'AllowUsers' value: ''
+Choose new setting type (AllowUsers, DenyUsers, AllowGroups, DenyGroups) [AllowUsers]: AllowUsers
+Enter new value for AllowUsers (Space-separated usernames (e.g., user1 user2) or 'none' to remove) []: devuser sysadmin
+Apply change: AllowUsers devuser sysadmin? (yes/no): yes
+Backed up /etc/ssh/sshd_config to /var/backups/sshd_config/sshd_config.2025-06-19_16-00-00.
+Setting 'AllowUsers' updated to 'devuser sysadmin' successfully.
+
+--- Reloading SSH Service ---
+Attempting to reload sshd service...
+SSHD service reloaded successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> SSH Server Configuration (WhoisMonesh) <<<
+=====================================================
+1. View Current sshd_config
+2. Modify SSH Port
+3. Modify PermitRootLogin
+4. Modify PasswordAuthentication
+5. Modify PubkeyAuthentication
+6. Manage User/Group Access (Allow/DenyUsers/Groups)
+7. Reload SSH Service
+8. Restore sshd_config from Backup
+0. Back to Main Menu
+=====================================================
+Enter your choice: 0
+
+<clear screen>
+=====================================================
+>>> SSH Manager (WhoisMonesh) <<<
+=====================================================
+1. SSH Client Configuration (~/.ssh/config)
+2. SSH Key Management (~/.ssh/)
+3. SSH Server Configuration (/etc/ssh/sshd_config)
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting SSH Manager. Goodbye!
