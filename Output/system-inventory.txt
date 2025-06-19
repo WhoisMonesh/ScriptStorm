@@ -1,0 +1,205 @@
+# First, ensure the script is executable:
+# chmod +x system-inventory.sh
+
+# Then, run the script (recommended with sudo for full access to hardware details):
+# sudo ./system-inventory.sh
+
+WARNING: Running as non-root user. Some hardware details (BIOS, PCI, USB, some disk/network info) may be restricted or unavailable.
+Press Enter to continue... (If not run with sudo, this warning would appear)
+
+<clear screen>
+=====================================================
+>>> System Inventory (WhoisMonesh) <<<
+=====================================================
+1. Operating System & Kernel Info
+2. CPU Information
+3. Memory (RAM) Information
+4. Disk & Storage Information
+5. Network Interface Information
+6. PCI Devices
+7. USB Devices
+8. BIOS & Motherboard Information
+9. Installed Packages (may be long)
+S. Running System Services
+V. Key Software Versions
+E. Important Environment Variables
+F. Generate FULL Inventory Report to File
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Operating System and Kernel ---
+Hostname: my-inventory-server
+Description:    Ubuntu 22.04.4 LTS
+Release:        22.04
+Codename:       jammy
+Kernel Version: 5.15.0-101-generic
+Architecture:   x86_64
+Uptime:         up 4 days, 2 hours, 15 minutes
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Inventory (WhoisMonesh) <<<
+=====================================================
+1. Operating System & Kernel Info
+2. CPU Information
+3. Memory (RAM) Information
+4. Disk & Storage Information
+5. Network Interface Information
+6. PCI Devices
+7. USB Devices
+8. BIOS & Motherboard Information
+9. Installed Packages (may be long)
+S. Running System Services
+V. Key Software Versions
+E. Important Environment Variables
+F. Generate FULL Inventory Report to File
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Memory (RAM) Information ---
+              total        used        free      shared  buff/cache   available
+Mem:           7.8G        2.8G        3.5G        250M        1.5G        4.7G
+Swap:          2.0G        0.0B        2.0G
+
+Memory Modules (requires root):
+Handle 0x000E, DMI type 17, 40 bytes
+Memory Device
+    Array Handle: 0x000D
+    Error Information Handle: 0x000F
+    Total Width: 64 bits
+    Data Width: 64 bits
+    Size: 4 GB
+    Form Factor: DIMM
+    Set: 1
+    Locator: DIMM_A1
+    Bank Locator: BANK 0
+    Type: DDR4
+    Type Detail: Synchronous
+    Speed: 2400 MT/s
+    Manufacturer: Hynix Semiconductor
+    Serial Number: 12345678
+    Asset Tag: AssetTag#0
+    Part Number: HMA851U6CJR6N-VK
+    Rank: 1
+    Configured Memory Speed: 2400 MT/s
+Handle 0x0010, DMI type 17, 40 bytes
+Memory Device
+    Array Handle: 0x000D
+    Error Information Handle: 0x0011
+    Total Width: 64 bits
+    Data Width: 64 bits
+    Size: 4 GB
+    Form Factor: DIMM
+    Set: 1
+    Locator: DIMM_A2
+    Bank Locator: BANK 1
+    Type: DDR4
+    Type Detail: Synchronous
+    Speed: 2400 MT/s
+    Manufacturer: Samsung
+    Serial Number: 87654321
+    Asset Tag: AssetTag#1
+    Part Number: M378A5244CB0-CRC
+    Rank: 1
+    Configured Memory Speed: 2400 MT/s
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Inventory (WhoisMonesh) <<<
+=====================================================
+1. Operating System & Kernel Info
+2. CPU Information
+3. Memory (RAM) Information
+4. Disk & Storage Information
+5. Network Interface Information
+6. PCI Devices
+7. USB Devices
+8. BIOS & Motherboard Information
+9. Installed Packages (may be long)
+S. Running System Services
+V. Key Software Versions
+E. Important Environment Variables
+F. Generate FULL Inventory Report to File
+0. Exit
+=====================================================
+Enter your choice: S
+
+--- Running System Services ---
+Active systemd services:
+-------------------------------------------------------------------
+UNIT                          LOAD   ACTIVE SUB     DESCRIPTION
+  acpid.service                 loaded active running ACPI event daemon
+  apache2.service               loaded active running The Apache HTTP Server
+  cron.service                  loaded active running Regular background program processing daemon
+  docker.service                loaded active running Docker Application Container Engine
+  irqbalance.service            loaded active running Balance interrupts for SMP systems
+  mysql.service                 loaded active running MySQL Community Server
+  networkd-dispatcher.service   loaded active running Dispatcher daemon for systemd-networkd hotplug events
+  plymouth-quit-wait.service    loaded active running Hold until boot process finishes up
+  polkit.service                loaded active running Authorization Manager
+  rsyslog.service               loaded active running System Logging Service
+  ssh.service                   loaded active running OpenBSD Secure Shell server
+  systemd-journald.service      loaded active running Journal Service
+  systemd-logind.service        loaded active running User Login Management
+  systemd-timesyncd.service     loaded active running Network Time Synchronization
+  systemd-udevd.service         loaded active running Rule-based Manager for Device Events and Files
+  ufw.service                   loaded active running Uncomplicated Firewall
+  user@1000.service             loaded active running User Manager for UID 1000
+  whoopsie.service              loaded active running crash report submission daemon
+LOAD   = Load Unit: loaded
+ACTIVE = Active State: active
+SUB    = Sub State: running
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Inventory (WhoisMonesh) <<<
+=====================================================
+1. Operating System & Kernel Info
+2. CPU Information
+3. Memory (RAM) Information
+4. Disk & Storage Information
+5. Network Interface Information
+6. PCI Devices
+7. USB Devices
+8. BIOS & Motherboard Information
+9. Installed Packages (may be long)
+S. Running System Services
+V. Key Software Versions
+E. Important Environment Variables
+F. Generate FULL Inventory Report to File
+0. Exit
+=====================================================
+Enter your choice: F
+
+--- Generating Full System Inventory Report ---
+Generating report to: /tmp/system_inventory_reports/system_inventory_report_2025-06-19_09-00-00.txt
+Full inventory report saved to: /tmp/system_inventory_reports/system_inventory_report_2025-06-19_09-00-00.txt
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Inventory (WhoisMonesh) <<<
+=====================================================
+1. Operating System & Kernel Info
+2. CPU Information
+3. Memory (RAM) Information
+4. Disk & Storage Information
+5. Network Interface Information
+6. PCI Devices
+7. USB Devices
+8. BIOS & Motherboard Information
+9. Installed Packages (may be long)
+S. Running System Services
+V. Key Software Versions
+E. Important Environment Variables
+F. Generate FULL Inventory Report to File
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting System Inventory. Goodbye!
