@@ -1,0 +1,180 @@
+# First, ensure the script is executable:
+# chmod +x package-manager.sh
+
+# Then, run the script as root:
+# sudo ./package-manager.sh
+
+Detected package manager: APT (Debian/Ubuntu based system)
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Unified Package Manager (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Update Package Lists
+2. Upgrade Installed Packages
+3. Install Package(s)
+4. Remove Package(s)
+5. Search Package(s)
+6. Clean Package Cache
+7. Autoremove Unused Dependencies
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Update Package Lists ---
+Running apt update...
+Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+Get:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
+... (more update output)
+Reading package lists... Done
+Package lists updated successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Unified Package Manager (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Update Package Lists
+2. Upgrade Installed Packages
+3. Install Package(s)
+4. Remove Package(s)
+5. Search Package(s)
+6. Clean Package Cache
+7. Autoremove Unused Dependencies
+0. Exit
+=====================================================
+Enter your choice: 5
+
+--- Search for Package(s) ---
+Enter package search term: htop
+Searching for 'htop' using apt...
+-------------------------------------------------------------------
+Sorting... Done
+Full Text Search... Done
+htop/jammy 3.0.5-7build2 amd64
+  interactive processes viewer
+
+Other packages matching 'htop':
+  htop-dbgsym/jammy 3.0.5-7build2 amd64
+-------------------------------------------------------------------
+Search completed.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Unified Package Manager (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Update Package Lists
+2. Upgrade Installed Packages
+3. Install Package(s)
+4. Remove Package(s)
+5. Search Package(s)
+6. Clean Package Cache
+7. Autoremove Unused Dependencies
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Install Package(s) ---
+Enter package name(s) to install (space-separated): htop nmap
+Installing 'htop nmap' using apt...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  htop nmap
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1,450 kB of archives.
+After this operation, 6,128 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu jammy/main amd64 htop amd64 3.0.5-7build2 [113 kB]
+Get:2 http://archive.ubuntu.com/ubuntu jammy/main amd64 nmap amd64 7.91+dfsg1-1build1 [1,337 kB]
+... (downloading and installing)
+Setting up htop (3.0.5-7build2) ...
+Setting up nmap (7.91+dfsg1-1build1) ...
+Processing triggers for man-db (2.10.2-1) ...
+Package(s) 'htop nmap' installed successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Unified Package Manager (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Update Package Lists
+2. Upgrade Installed Packages
+3. Install Package(s)
+4. Remove Package(s)
+5. Search Package(s)
+6. Clean Package Cache
+7. Autoremove Unused Dependencies
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Remove Package(s) ---
+Enter package name(s) to remove (space-separated): htop
+Removing 'htop' using apt...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages will be REMOVED:
+  htop
+0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
+After this operation, 276 kB disk space will be freed.
+(Reading database ... 200000 files and directories currently installed.)
+Removing htop (3.0.5-7build2) ...
+Processing triggers for man-db (2.10.2-1) ...
+Package(s) 'htop' removed successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Unified Package Manager (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Update Package Lists
+2. Upgrade Installed Packages
+3. Install Package(s)
+4. Remove Package(s)
+5. Search Package(s)
+6. Clean Package Cache
+7. Autoremove Unused Dependencies
+0. Exit
+=====================================================
+Enter your choice: 7
+
+--- Autoremove Unused Dependencies ---
+Running apt autoremove...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Unused dependencies autoremoved successfully.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Unified Package Manager (WhoisMonesh) <<<
+=====================================================
+Detected Manager: Apt
+-----------------------------------------------------
+1. Update Package Lists
+2. Upgrade Installed Packages
+3. Install Package(s)
+4. Remove Package(s)
+5. Search Package(s)
+6. Clean Package Cache
+7. Autoremove Unused Dependencies
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Unified Package Manager. Goodbye!
