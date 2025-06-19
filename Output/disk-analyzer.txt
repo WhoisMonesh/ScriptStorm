@@ -1,0 +1,119 @@
+# First, ensure the script is executable:
+# chmod +x disk-analyzer.sh
+
+# Then, run the script (recommended with sudo for full access):
+# sudo ./disk-analyzer.sh
+
+<clear screen>
+=====================================================
+>>> Disk Usage Analyzer (WhoisMonesh) <<<
+=====================================================
+1. Filesystem Disk Usage (df -h)
+2. Analyze Directory Space Usage (du)
+3. Filesystem Inode Usage (df -i)
+4. Find Top Largest Files
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Filesystem Disk Usage Overview ---
+Displays disk space usage for mounted filesystems.
+-------------------------------------------------------------------------------------------------------------------
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2        97G  24G   68G  26% /
+/dev/sda1       523M  5.3M  518M   2% /boot/efi
+/dev/sdb        1.0T  50G  950G   5% /mnt/data
+-------------------------------------------------------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Disk Usage Analyzer (WhoisMonesh) <<<
+=====================================================
+1. Filesystem Disk Usage (df -h)
+2. Analyze Directory Space Usage (du)
+3. Filesystem Inode Usage (df -i)
+4. Find Top Largest Files
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Analyze Directory Space Usage (Top 10) ---
+Enter path to analyze (e.g., /, /var, /home/user, default: /): /var
+Enter directory depth for analysis (default: 2): 1
+Analyzing '/var' with depth 1...
+-------------------------------------------------------------------
+6.0G    /var/log
+2.5G    /var/lib
+1.2G    /var/cache
+500M    /var/www
+100M    /var/tmp
+20M     /var/mail
+10M     /var/spool
+9.8G    /var # This is the total for /var, often included if du is run directly on the path
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Disk Usage Analyzer (WhoisMonesh) <<<
+=====================================================
+1. Filesystem Disk Usage (df -h)
+2. Analyze Directory Space Usage (du)
+3. Filesystem Inode Usage (df -i)
+4. Find Top Largest Files
+0. Exit
+=====================================================
+Enter your choice: 4
+
+--- Find Largest Files (Top 10) ---
+Enter starting path to search (e.g., /, /var/log, default: /): /var/log
+Searching for top 10 largest files in '/var/log'...
+-------------------------------------------------------------------
+988M    /var/log/syslog
+520M    /var/log/kern.log
+300M    /var/log/auth.log
+250M    /var/log/mysql/error.log
+150M    /var/log/nginx/access.log
+120M    /var/log/apache2/access.log
+80M     /var/log/alternatives.log
+50M     /var/log/boot.log
+40M     /var/log/faillog
+30M     /var/log/dpkg.log
+-------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Disk Usage Analyzer (WhoisMonesh) <<<
+=====================================================
+1. Filesystem Disk Usage (df -h)
+2. Analyze Directory Space Usage (du)
+3. Filesystem Inode Usage (df -i)
+4. Find Top Largest Files
+0. Exit
+=====================================================
+Enter your choice: 3
+
+--- Filesystem Inode Usage ---
+Inodes represent the number of files and directories. High inode usage can prevent new files.
+-------------------------------------------------------------------------------------------------------------------
+Filesystem      Inodes  IUsed   IFree IUse% Mounted on
+/dev/sda2      6.4M   250K   6.1M    4% /
+/dev/sda1      512K    300    512K    1% /boot/efi
+/dev/sdb       64M     1M    63M    2% /mnt/data
+-------------------------------------------------------------------------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> Disk Usage Analyzer (WhoisMonesh) <<<
+=====================================================
+1. Filesystem Disk Usage (df -h)
+2. Analyze Directory Space Usage (du)
+3. Filesystem Inode Usage (df -i)
+4. Find Top Largest Files
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting Disk Usage Analyzer. Goodbye!
