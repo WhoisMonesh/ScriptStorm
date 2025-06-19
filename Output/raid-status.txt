@@ -1,0 +1,164 @@
+# First, ensure the script is executable:
+# chmod +x raid-status.sh
+
+# Then, run the script (sudo is required for mdadm commands):
+# sudo ./raid-status.sh
+
+<clear screen>
+=====================================================
+>>> RAID Array Health Monitor (WhoisMonesh) <<<
+=====================================================
+1. List Detected RAID Arrays
+2. Check Detailed RAID Array Status
+3. About RAID Monitoring & Troubleshooting
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Detected RAID Arrays ---
+-----------------------------------------------------
+Device
+-----------------------------------------------------
+/dev/md0
+/dev/md1
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> RAID Array Health Monitor (WhoisMonesh) <<<
+=====================================================
+1. List Detected RAID Arrays
+2. Check Detailed RAID Array Status
+3. About RAID Monitoring & Troubleshooting
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Detailed RAID Array Status ---
+
+--- Status for /dev/md0 ---
+/dev/md0:
+        Version : 1.2
+  Creation Time : Mon Jun 17 14:30:00 2024
+     Raid Level : raid1
+     Array Size : 975979520 (930.76 GiB 999.40 GB)
+  Used Devices : 2
+   Raid Devices : 2
+  Total Devices : 2
+    Persistence : Superblock is persistent
+
+    Update Time : Thu Jun 20 09:45:00 2025
+          State : clean
+ Active Devices : 2
+Working Devices : 2
+ Failed Devices : 0
+  Spare Devices : 0
+
+           UUID : a1b2c3d4:e5f6g7h8:i9j0k1l2:m3n4o5p6
+
+    Devices : /dev/sdb[0], /dev/sdc[1]
+
+Status: CLEAN - Array is healthy.
+
+--- Status for /dev/md1 ---
+/dev/md1:
+        Version : 1.2
+  Creation Time : Mon Jun 17 14:35:00 2024
+     Raid Level : raid5
+     Array Size : 2930268160 (2.73 TiB 3.00 TB)
+  Used Devices : 4
+   Raid Devices : 4
+  Total Devices : 4
+    Persistence : Superblock is persistent
+
+    Update Time : Thu Jun 20 09:45:00 2025
+          State : clean
+ Active Devices : 4
+Working Devices : 4
+ Failed Devices : 0
+  Spare Devices : 0
+
+           UUID : q1r2s3t4:u5v6w7x8:y9z0a1b2:c3d4e5f6
+
+    Devices : /dev/sdd[0], /dev/sde[1], /dev/sdf[2], /dev/sdg[3]
+
+Status: CLEAN - Array is healthy.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> RAID Array Health Monitor (WhoisMonesh) <<<
+=====================================================
+1. List Detected RAID Arrays
+2. Check Detailed RAID Array Status
+3. About RAID Monitoring & Troubleshooting
+0. Exit
+=====================================================
+Enter your choice: 2
+# (Simulating /dev/md0 becoming degraded with /dev/sdb failed for this run)
+
+--- Detailed RAID Array Status ---
+
+--- Status for /dev/md0 ---
+/dev/md0:
+        Version : 1.2
+  Creation Time : Mon Jun 17 14:30:00 2024
+     Raid Level : raid1
+     Array Size : 975979520 (930.76 GiB 999.40 GB)
+  Used Devices : 2
+   Raid Devices : 2
+  Total Devices : 1
+    Persistence : Superblock is persistent
+
+    Update Time : Thu Jun 20 09:45:30 2025
+          State : active, degraded
+ Active Devices : 1
+Working Devices : 1
+ Failed Devices : 1
+  Spare Devices : 0
+
+           UUID : a1b2c3d4:e5f6g7h8:i9j0k1l2:m3n4o5p6
+
+    Devices : /dev/sdc[1]
+    /dev/sdb[0](F)  <- This device is failed
+
+Status: DEGRADED - Array is degraded! One or more drives may have failed.
+Failed Devices: /dev/sdb[0](F)
+
+--- Status for /dev/md1 ---
+/dev/md1:
+        Version : 1.2
+  Creation Time : Mon Jun 17 14:35:00 2024
+     Raid Level : raid5
+     Array Size : 2930268160 (2.73 TiB 3.00 TB)
+  Used Devices : 4
+   Raid Devices : 4
+  Total Devices : 4
+    Persistence : Superblock is persistent
+
+    Update Time : Thu Jun 20 09:45:30 2025
+          State : clean
+ Active Devices : 4
+Working Devices : 4
+ Failed Devices : 0
+  Spare Devices : 0
+
+           UUID : q1r2s3t4:u5v6w7x8:y9z0a1b2:c3d4e5f6
+
+    Devices : /dev/sdd[0], /dev/sde[1], /dev/sdf[2], /dev/sdg[3]
+
+Status: CLEAN - Array is healthy.
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> RAID Array Health Monitor (WhoisMonesh) <<<
+=====================================================
+1. List Detected RAID Arrays
+2. Check Detailed RAID Array Status
+3. About RAID Monitoring & Troubleshooting
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting RAID Array Health Monitor. Goodbye!
