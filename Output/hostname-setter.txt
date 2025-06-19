@@ -1,0 +1,79 @@
+# First, ensure the script is executable:
+# chmod +x hostname-setter.sh
+
+# Then, run the script as root:
+# sudo ./hostname-setter.sh
+
+<clear screen>
+=====================================================
+>>> System Hostname Setter (WhoisMonesh) <<<
+=====================================================
+1. Display Current Hostname
+2. Set New System Hostname
+3. About Hostname & Best Practices
+0. Exit
+=====================================================
+Enter your choice: 1
+
+--- Current System Hostname ---
+-----------------------------------------------------
+Using hostnamectl:
+      Static hostname: old-server-name
+      Transient hostname: old-server-name
+      Icon name: computer-vm
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Hostname Setter (WhoisMonesh) <<<
+=====================================================
+1. Display Current Hostname
+2. Set New System Hostname
+3. About Hostname & Best Practices
+0. Exit
+=====================================================
+Enter your choice: 2
+
+--- Set New System Hostname ---
+A valid hostname should contain only letters, numbers, hyphens, and dots.
+It should not start or end with a hyphen, and dots are used for domain names.
+Enter the new desired hostname [old-server-name]: new-webserver
+Setting system hostname to: new-webserver
+Hostname set successfully using 'hostnamectl'!
+Do you want to update /etc/hosts file? (Y/n): y
+
+--- Updating /etc/hosts ---
+Backed up /etc/hosts to /etc/hosts.bak_2025-06-19_10-00-00.
+Removed old hostname 'old-server-name' from /etc/hosts.
+Updated 127.0.0.1 entry in /etc/hosts with new hostname 'new-webserver'.
+Current /etc/hosts content (first 10 lines):
+127.0.0.1       localhost new-webserver
+127.0.1.1       new-webserver # Often added by installer, handled by removing old.
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+-----------------------------------------------------
+NOTE: Some applications or services might require a reboot or restart to fully recognize the new hostname.
+
+--- Current System Hostname ---
+-----------------------------------------------------
+Using hostnamectl:
+      Static hostname: new-webserver
+      Transient hostname: new-webserver
+      Icon name: computer-vm
+-----------------------------------------------------
+Press Enter to continue...
+
+<clear screen>
+=====================================================
+>>> System Hostname Setter (WhoisMonesh) <<<
+=====================================================
+1. Display Current Hostname
+2. Set New System Hostname
+3. About Hostname & Best Practices
+0. Exit
+=====================================================
+Enter your choice: 0
+Exiting System Hostname Setter. Goodbye!
